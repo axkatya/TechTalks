@@ -1,0 +1,96 @@
+<h2>Tech Talks</h2>
+
+<table>
+    <tr>
+        <td>
+            <label>Discipline</label>
+        </td>
+        <td>
+            <select [(ngModel)]="this.talkFilterViewModel.disciplineName" (change)="onSelectDisciplineFilter($event.target.value)">
+                <option *ngFor="let disciplineName of this.talkFilterViewModel.disciplineList" [value]="disciplineName">
+                    {{ disciplineName }}
+                </option>
+            </select>
+        </td>
+        <td>
+            <label>Speaker</label>
+        </td>
+        <td>
+            <input type="text" [(ngModel)]="this.talkFilterViewModel.speakerName" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Topic</label>
+        </td>
+        <td>
+            <input type="text" [(ngModel)]="this.talkFilterViewModel.topic" />
+        </td>
+        <td>
+
+            <label>Date From</label>
+
+        <td>
+            <angular2-date-picker [(ngModel)]="this.talkFilterViewModel.dateFrom"
+                                  (onDateSelect)="onDateFromSelect($event.target.value)"
+                                  [settings]="dateFromSettings">
+            </angular2-date-picker>
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+
+            <label>Location</label>
+
+        </td>
+        <td>
+            <select [(ngModel)]="this.talkFilterViewModel.locationName" (change)="onSelectLocationFilter($event.target.value)">
+                <option *ngFor="let locationName of this.talkFilterViewModel.locationList" [value]="locationName">
+                    {{ locationName }}
+                </option>
+            </select>
+        </td>
+        <td>
+
+            <label>Date To</label>
+
+        </td>
+        <td>
+            <angular2-date-picker [(ngModel)]="this.talkFilterViewModel.dateTo"
+                                  (onDateSelect)="onDateToSelect($event.target.value)"
+                                  [settings]="dateToSettings">
+            </angular2-date-picker>
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>
+            <div class="row">
+                <button (click)="onSearch()">Search</button>
+            </div>
+        </td>
+    </tr>
+
+</table>
+<table>
+    <tr>
+        <td>
+            <label>Rows per page</label>
+        </td>
+        <td>
+            <select [(ngModel)]="this.rowsPerPage" (change)="onSelectRowsPerPage($event.target.value)">
+                <option *ngFor="let rowsPerPage of this.possibleRowsPerPage" [value]="rowsPerPage">
+                    {{ rowsPerPage }}
+                </option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <ng2-smart-table *ngIf="source" [settings]="talkSettings" [source]="source">Loading....</ng2-smart-table>
+        </td>
+    </tr>
+</table>
+
