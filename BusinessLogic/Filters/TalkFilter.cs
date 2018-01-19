@@ -77,11 +77,10 @@ namespace BusinessLogic.Filters
 
         #region Public Methods
 
-        public Func<Talk, bool> FilterExpression => expr => (Location == null || string.Equals(expr.Location, Location)) &&
-                                                                                 (DisciplineName == null || string.Equals(expr.Discipline.DisciplineName, DisciplineName)) &&
-                                                                                 (Topic == null || string.Equals(expr.Topic, Topic)) &&
-                                                                                 FilterSpeakerName(expr) &&
-                                                                                 (Topic == null || string.Equals(expr.Topic, Topic)) &&
+        public Func<Talk, bool> FilterExpression => expr => (string.IsNullOrWhiteSpace(Location) || string.Equals(expr.Location, Location)) &&
+                                                                                 (string.IsNullOrWhiteSpace(DisciplineName) || string.Equals(expr.Discipline.DisciplineName, DisciplineName)) &&
+                                                                                 (string.IsNullOrWhiteSpace(Topic) || string.Equals(expr.Topic, Topic)) &&
+                                                                                 FilterSpeakerName(expr) &&                       
                                                                                  (DateFrom == null || expr.TalkDate >= DateFrom) &&
                                                                                  (DateTo == null || expr.TalkDate <= DateTo);
 
@@ -91,7 +90,7 @@ namespace BusinessLogic.Filters
 
         private bool FilterSpeakerName(Talk expr)
         {
-            if (SpeakerName == null || string.IsNullOrWhiteSpace(SpeakerName))
+            if (string.IsNullOrWhiteSpace(SpeakerName))
             {
                 return true;
             }

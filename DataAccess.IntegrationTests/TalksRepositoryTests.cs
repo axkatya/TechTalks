@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using Xunit;
 
-namespace IntegrationTests
+namespace DataAccess.IntegrationTests
 {
     public class TalksRepositoryTests : IDisposable
     {

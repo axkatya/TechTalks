@@ -1,6 +1,7 @@
 using AngularMVCCoreTechTalks.ViewModels;
 using AutoMapper;
 using BusinessLogic.Filters;
+using DataAccess.Entities;
 using DataAccess.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -36,28 +37,14 @@ namespace AngularMVCCoreTechTalks.Controllers
         [HttpGet("[action]")]
         public TalkFilterViewModel GetFilters()
         {
-            var talks = _talkService.GetAll().ToList();
+            IList<Talk> talks = _talkService.GetAll().ToList();
             TalkFilterViewModel filterViewModel = Mapper.Map<TalkFilterViewModel>(talks);
             return filterViewModel;
         }
 
-        [HttpGet("[action]")]
-        public IEnumerable<TalkViewModel> GetFilteredTalks(
-            [FromQuery]string disciplineName,
-            string locationName,
-            string speakerName,
-            string topic,
-            DateTime? dateFrom,
-            DateTime? dateTo)
+        [HttpPost("[action]")]
+        public IEnumerable<TalkViewModel> GetFilteredTalks([FromBody]TalkFilterViewModel talkFilterViewModel)
         {
-            TalkFilterViewModel talkFilterViewModel = new TalkFilterViewModel();
-            talkFilterViewModel.DisciplineName = disciplineName;
-            talkFilterViewModel.Location = locationName;
-            talkFilterViewModel.SpeakerName = speakerName;
-            talkFilterViewModel.Topic = topic;
-            talkFilterViewModel.DateFrom = dateFrom;
-            talkFilterViewModel.DateTo = dateTo;
-
             TalkFilter filter = Mapper.Map<TalkFilter>(talkFilterViewModel);
             var talks = _talkService.ExecuteFilters(filter.FilterExpression);
             IEnumerable<TalkViewModel> talksViewModel = Mapper.Map<IEnumerable<TalkViewModel>>(talks);

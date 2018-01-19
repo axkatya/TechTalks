@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.UnitTests", "WebApi.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi.IntegrationTests", "WebApi.IntegrationTests\WebApi.IntegrationTests.csproj", "{08CFBE48-56D7-412F-942B-5B7B5569702E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic.UnitTests", "BusinessLogic.UnitTests\BusinessLogic.UnitTests.csproj", "{E223088C-B5AF-48CE-AF10-E9C0B35BA71C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{879C6520-8B4A-499E-BB25-328ACC01C91D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,9 +55,19 @@ Global
 		{08CFBE48-56D7-412F-942B-5B7B5569702E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08CFBE48-56D7-412F-942B-5B7B5569702E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08CFBE48-56D7-412F-942B-5B7B5569702E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E223088C-B5AF-48CE-AF10-E9C0B35BA71C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E223088C-B5AF-48CE-AF10-E9C0B35BA71C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E223088C-B5AF-48CE-AF10-E9C0B35BA71C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E223088C-B5AF-48CE-AF10-E9C0B35BA71C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DE076320-7676-4552-A70F-D769B3578982} = {879C6520-8B4A-499E-BB25-328ACC01C91D}
+		{4120CE57-58F9-4DA8-A789-5C05E210C3CC} = {879C6520-8B4A-499E-BB25-328ACC01C91D}
+		{08CFBE48-56D7-412F-942B-5B7B5569702E} = {879C6520-8B4A-499E-BB25-328ACC01C91D}
+		{E223088C-B5AF-48CE-AF10-E9C0B35BA71C} = {879C6520-8B4A-499E-BB25-328ACC01C91D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {993A6B1A-A5FD-4F47-9FDE-8C3DD02ADE2F}

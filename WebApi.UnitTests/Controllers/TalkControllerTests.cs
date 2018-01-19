@@ -10,12 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace WebApiTests.Controllers
+namespace WebApi.UnitTests.Controllers
 {
     public class TalkControllerTests
     {
         [Fact]
-        public void GetFilters_WhenTwoRecordsExist_ShouldReturnTwoPossibleDisciplines()
+        public void GetFilters_WhenTwoRecordsExist_ShouldReturnDistinctValues()
         {
             // Arrange
             AutoMapper.Mapper.Reset();
@@ -36,6 +36,7 @@ namespace WebApiTests.Controllers
 
             // Assert
             result.DisciplineList.ToList().Count().CompareTo(2);
+            result.LocationList.ToList().Count().CompareTo(1);
         }
 
         [Fact]
@@ -67,14 +68,17 @@ namespace WebApiTests.Controllers
 
             var controller = new TalkController(mockTalkService.Object);
 
+            TalkFilterViewModel talkFilterViewModel = new TalkFilterViewModel {
+                DisciplineName = filter.DisciplineName,
+                Location = filter.DisciplineName,
+                SpeakerName = filter.SpeakerName,
+                Topic = filter.Topic,
+                DateFrom = filter.DateFrom,
+                DateTo = filter.DateTo
+            };
+
             // Act
-            IEnumerable<TalkViewModel> result = controller.GetFilteredTalks(
-                filter.DisciplineName,
-                filter.Location,
-                filter.SpeakerName,
-                filter.Topic,
-                filter.DateFrom,
-                filter.DateTo);
+            IEnumerable<TalkViewModel> result = controller.GetFilteredTalks(talkFilterViewModel);
 
             // Assert
             result.Count().CompareTo(2);
@@ -96,11 +100,10 @@ namespace WebApiTests.Controllers
             {
                 TalkId = 2,
                 Discipline = new Discipline { DisciplineId = 2, DisciplineName = "FT" },
-                Location = "Location Two"
+                Location = "Location One"
             });
 
             return talks;
         }
-
     }
 }

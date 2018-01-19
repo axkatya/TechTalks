@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.PlatformAbstractions;
-using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace IntegrationTests
+namespace WebApi.IntegrationTests
 {
     public class TalkFiltersRequestTests
     {

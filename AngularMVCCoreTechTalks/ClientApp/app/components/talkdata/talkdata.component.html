@@ -3,32 +3,32 @@
 <table>
     <tr>
         <td>
-            <label>Discipline</label>
+            <label class="label">Discipline</label>
         </td>
         <td>
-            <select [(ngModel)]="this.talkFilterViewModel.disciplineName" (change)="onSelectDisciplineFilter($event.target.value)">
+            <select class="select select--width-full" [(ngModel)]="this.talkFilterViewModel.disciplineName" (change)="onSelectDisciplineFilter($event.target.value)">
                 <option *ngFor="let disciplineName of this.talkFilterViewModel.disciplineList" [value]="disciplineName">
                     {{ disciplineName }}
                 </option>
             </select>
         </td>
         <td>
-            <label>Speaker</label>
+            <label class="label">Speaker</label>
         </td>
         <td>
-            <input type="text" [(ngModel)]="this.talkFilterViewModel.speakerName" />
+            <input class="input" type="text" [(ngModel)]="this.talkFilterViewModel.speakerName" />
         </td>
     </tr>
     <tr>
         <td>
-            <label>Topic</label>
+            <label class="label">Topic</label>
         </td>
         <td>
-            <input type="text" [(ngModel)]="this.talkFilterViewModel.topic" />
+            <input class="input" type="text" [(ngModel)]="this.talkFilterViewModel.topic" />
         </td>
         <td>
 
-            <label>Date From</label>
+            <label class="label">Date From</label>
 
         <td>
             <angular2-date-picker [(ngModel)]="this.talkFilterViewModel.dateFrom"
@@ -41,11 +41,11 @@
     <tr>
         <td>
 
-            <label>Location</label>
+            <label class="label">Location</label>
 
         </td>
         <td>
-            <select [(ngModel)]="this.talkFilterViewModel.locationName" (change)="onSelectLocationFilter($event.target.value)">
+            <select class="select select--width-full" [(ngModel)]="this.talkFilterViewModel.locationName" (change)="onSelectLocationFilter($event.target.value)">
                 <option *ngFor="let locationName of this.talkFilterViewModel.locationList" [value]="locationName">
                     {{ locationName }}
                 </option>
@@ -53,7 +53,7 @@
         </td>
         <td>
 
-            <label>Date To</label>
+            <label class="label">Date To</label>
 
         </td>
         <td>
@@ -66,21 +66,18 @@
 
 
     <tr>
-        <td>
-            <div class="row">
+        <td class="td--textalign-right" colspan = "4">
+            <div>
                 <button (click)="onSearch()">Search</button>
             </div>
         </td>
     </tr>
 
-</table>
-<table>
     <tr>
-        <td>
-            <label>Rows per page</label>
-        </td>
-        <td>
-            <select [(ngModel)]="this.rowsPerPage" (change)="onSelectRowsPerPage($event.target.value)">
+        <td class="td--textalign-right" colspan = "4">
+            <label class="label">Rows per page</label>
+       
+            <select class="select" [(ngModel)]="this.rowsPerPage" (change)="onSelectRowsPerPage($event.target.value)">
                 <option *ngFor="let rowsPerPage of this.possibleRowsPerPage" [value]="rowsPerPage">
                     {{ rowsPerPage }}
                 </option>
@@ -88,7 +85,7 @@
         </td>
     </tr>
     <tr>
-        <td>
+        <td colspan = "4">
             <ng2-smart-table *ngIf="source" [settings]="talkSettings" [source]="source">Loading....</ng2-smart-table>
         </td>
     </tr>

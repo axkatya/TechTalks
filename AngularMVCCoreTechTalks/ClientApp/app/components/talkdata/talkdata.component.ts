@@ -1,32 +1,39 @@
-import { Component, Inject } from '@angular/core';
-import { Http, URLSearchParams  } from '@angular/http';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Http, URLSearchParams, Headers } from '@angular/http';
 import { LocalDataSource } from 'ng2-smart-table';
+import { Talk } from '../talk';
+import { TalkFilterViewModel } from '../talkFilterViewModel';
+import { TalkFilterViewModelService } from '../talkFilterViewModel.service';
 
 @Component({
     selector: 'talkdata',
-    templateUrl: './talkdata.component.html'
+    templateUrl: './talkdata.component.html',
+    styleUrls: ['./talkdata.component.css']
 })
-
 
 export class TalkComponent {
 
-    source: LocalDataSource;
+    private talkFilterViewModel: TalkFilterViewModel;
 
-    dateFromSettings = {
+    private baseUrl: string;
+
+    private source: LocalDataSource;
+
+    private dateFromSettings = {
         bigBanner: true,
         timePicker: true,
         format: 'dd-MMM-yyyy hh:mm a',
-        defaultOpen: true
+        defaultOpen: false
     }
 
-    dateToSettings = {
+    private dateToSettings = {
         bigBanner: true,
         timePicker: true,
         format: 'dd-MMM-yyyy hh:mm a',
-        defaultOpen: true
+        defaultOpen: false
     }
 
-    talkSettings = {
+    private talkSettings = {
         columns: {
             talkDate: {
                 title: 'Date'
@@ -38,7 +45,8 @@ export class TalkComponent {
                 title: 'Additional Details'
             },
             speakerName: {
-                title: 'Speaker Name'
+                title: 'Speaker Name',
+                type: 'html'
             },
             disciplineName: {
                 title: 'Discipline'
@@ -49,28 +57,46 @@ export class TalkComponent {
         }
     };
 
-    possibleRowsPerPage: number[];
-    rowsPerPage: number;
+    private dateFormatOptions = {
+        era: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long',
+        timezone: 'UTC',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric'
+    };
 
-    public talkFilterViewModel: TalkFilterViewModel;
+    private possibleRowsPerPage: number[];
+    private rowsPerPage: number;
 
-    private baseUrl: string;
+    public talkFilterViewModelError: Boolean = false;
 
-    constructor(private http: Http, @Inject('BASE_URL') baseUrl: string) {
+    constructor(
+        private http: Http,
+        @Inject('BASE_URL') baseUrl: string,
+        private _talkFilterViewModelService: TalkFilterViewModelService
+    ) {
         this.baseUrl = baseUrl;
-
         this.possibleRowsPerPage = [20, 50];
         this.rowsPerPage = 20;
+    }
 
-        http.get(baseUrl + 'api/Talk/GetFilters').subscribe(result => {
-            this.talkFilterViewModel = result.json() as TalkFilterViewModel;
-            this.talkFilterViewModel.dateFrom = new Date();
-            this.talkFilterViewModel.disciplineName = '';
-            this.talkFilterViewModel.locationName = '';
-            this.talkFilterViewModel.speakerName = '';
+    ngOnInit() {
+        this.talkFilterViewModel = new TalkFilterViewModel();
+        this.talkFilterViewModel.dateFrom = new Date();
+        this.talkFilterViewModel.disciplineName = '';
+        this.talkFilterViewModel.locationName = '';
+        this.talkFilterViewModel.speakerName = '';
 
-            this.getFilteredTalks();
-        });        
+        this._talkFilterViewModelService.getTalkFilterViewModel().subscribe(result => {
+            this.talkFilterViewModel.disciplineList = result.disciplineList;
+            this.talkFilterViewModel.locationList = result.locationList;
+        });
+
+        this.getFilteredTalks(this.talkFilterViewModel);
     }
 
     onSelectRowsPerPage(rowsPerPage: number) {
@@ -96,71 +122,23 @@ export class TalkComponent {
     }
 
     onSearch() {
-        this.getFilteredTalks();
-       
-
-        //var dataType = 'application/json; charset=utf-8';
-        //var result = http.post(baseUrl + 'api/Talk/GetFilteredTalks', JSON.stringify(this.talkFilter.disciplineName));
-        //this.source = new ServerDataSource(http, { endPoint: this.baseUrl + 'api/Talk/GetFilteredTalks?disciplineName=' + this.talkFilter.disciplineName });
-        //$.ajax({
-        //    type: 'GET',
-        //    url: baseUrl + 'api/Talk/GetFilteredTalks?disciplineName=' + this.talkFilter.disciplineName,
-        //    dataType: 'json',
-        //    contentType: dataType,
-        //    success: function (result) {
-        //        console.log('Data received: ');
-        //        console.log(result);
-        //    }
-        //});
+        this.getFilteredTalks(this.talkFilterViewModel);
     }
 
-    getFilteredTalks()
-    {
-        let params: URLSearchParams = new URLSearchParams();
-        params.set('disciplineName', this.talkFilterViewModel.disciplineName);
-        params.set('locationName', this.talkFilterViewModel.locationName);
-        params.set('speakerName', this.talkFilterViewModel.speakerName);
-        params.set('topic', this.talkFilterViewModel.topic);
-        params.set('dateFrom', this.talkFilterViewModel.dateFrom != null ?
-            this.talkFilterViewModel.dateFrom.toString() :
-            '');
-        params.set('dateTo', this.talkFilterViewModel.dateTo != null ?
-            this.talkFilterViewModel.dateTo.toString() :
-            '');
-
-        this.source = new LocalDataSource(); 
+    getFilteredTalks(talkFilterViewModel: TalkFilterViewModel) {
+        this.source = new LocalDataSource();
         var talks: Talk[];
-
-        this.http.get(this.baseUrl + 'api/Talk/GetFilteredTalks', { search: params }).subscribe(result => {
-            talks = result.json() as Talk[];
-
-            this.source.setPaging(1, this.rowsPerPage, true);
-            this.source.load(talks);
-            this.source.refresh();
-        }); 
-         
+        this.http.post(this.baseUrl + 'api/Talk/GetFilteredTalks', talkFilterViewModel)
+            .subscribe(result => {
+                talks = result.json() as Talk[];
+                this.source.setPaging(1, this.rowsPerPage, true);
+                this.source.load(talks);
+                this.source.refresh();
+            });;
     }
 }
 
-export interface Talk {
-    talkDate: Date,
-    topic: string,
-    additionalDetail: string,
-    speakerName: string,
-    disciplineName: string,
-    location: string
-}
 
-export class TalkFilterViewModel {
-    public disciplineList: string[];
-    public locationList: string[];
-    public speakerName: string;
-    public dateFrom: Date;
-    public dateTo: Date;
-    public disciplineName: string;
-    public locationName: string;
-    public topic: string;
-}
 
 
 
