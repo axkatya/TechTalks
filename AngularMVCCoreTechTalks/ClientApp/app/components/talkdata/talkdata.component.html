@@ -31,10 +31,12 @@
             <label class="label">Date From</label>
 
         <td>
-            <angular2-date-picker [(ngModel)]="this.talkFilterViewModel.dateFrom"
-                                  (onDateSelect)="onDateFromSelect($event.target.value)"
-                                  [settings]="dateFromSettings">
-            </angular2-date-picker>
+            <datetime [(ngModel)]="this.talkFilterViewModel.dateFrom" 
+                      [hasClearButton]="true"
+                      [timepicker]="{ showMeridian: false, minuteStep: 1 }" 
+                      [datepicker]="dateFromSettings"
+                      (ngModelChange)="onDateFromSelect($event)"
+                      ></datetime>
         </td>
     </tr>
 
@@ -57,10 +59,11 @@
 
         </td>
         <td>
-            <angular2-date-picker [(ngModel)]="this.talkFilterViewModel.dateTo"
-                                  (onDateSelect)="onDateToSelect($event.target.value)"
-                                  [settings]="dateToSettings">
-            </angular2-date-picker>
+            <datetime [(ngModel)]="this.talkFilterViewModel.dateTo"
+                      [hasClearButton]="true"
+                      [timepicker]="{ showMeridian: false, minuteStep: 1 }"
+                      [datepicker]="dateToSettings"
+                      (ngModelChange)="onDateToSelect($event)"></datetime>
         </td>
     </tr>
 

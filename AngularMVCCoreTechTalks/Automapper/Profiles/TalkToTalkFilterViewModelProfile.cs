@@ -17,12 +17,14 @@ namespace AngularMVCCoreTechTalks.Automapper.Profiles
         /// </summary>
         public TalkToTalkFilterViewModelProfile()
         {
-            CreateMap<IEnumerable<Talk>, TalkFilterViewModel>().ForMember(
+            CreateMap<IEnumerable<Talk>, TalkFilterViewModel>()
+                .ForMember(
                 dest => dest.DisciplineList,
-                opt => opt.MapFrom(src => src.Select(p => p.Discipline.DisciplineName).Distinct())
-                ).ForMember(
+                opt => opt.MapFrom(src => src.Select(p => p.Discipline.DisciplineName).Distinct().OrderBy(d => d))
+                )
+                .ForMember(
                 dest => dest.LocationList,
-                opt => opt.MapFrom(src => src.Select(p => p.Location).Distinct())
+                opt => opt.MapFrom(src => src.Select(p => p.Location).Distinct().OrderBy(l => l))
                 );
         }
     }

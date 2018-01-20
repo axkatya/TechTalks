@@ -1,10 +1,11 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Talk } from './talk';
 import { TalkFilterViewModel } from './talkFilterViewModel';
 
 @Injectable()
-export class TalkFilterViewModelService {
+export class TalkService {
 
     private baseUrl: string;
 
@@ -12,8 +13,8 @@ export class TalkFilterViewModelService {
         this.baseUrl = baseUrl;
     }
 
-    getTalkFilterViewModel() {
-        return this.http.get(this.baseUrl + 'api/Talk/GetFilters')
-            .map((result => result.json() as TalkFilterViewModel));
+    getFilteredTalks(talkFilterViewModel: TalkFilterViewModel) {
+        return this.http.post(this.baseUrl + 'api/Talk/GetFilteredTalks', talkFilterViewModel)
+            .map(result => result.json() as Talk[]);
     }
 }

@@ -38,7 +38,9 @@ namespace AngularMVCCoreTechTalks.Controllers
         public TalkFilterViewModel GetFilters()
         {
             IList<Talk> talks = _talkService.GetAll().ToList();
+
             TalkFilterViewModel filterViewModel = Mapper.Map<TalkFilterViewModel>(talks);
+
             return filterViewModel;
         }
 

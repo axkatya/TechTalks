@@ -67,7 +67,7 @@ namespace AngularMVCCoreTechTalks.ViewModels
         /// <value>
         /// The discipline list.
         /// </value>
-        public IEnumerable<string> DisciplineList { get; set; }
+        public IList<string> DisciplineList { get; set; }
 
         /// <summary>
         /// Gets or sets the location list.
@@ -75,6 +75,6 @@ namespace AngularMVCCoreTechTalks.ViewModels
         /// <value>
         /// The location list.
         /// </value>
-        public IEnumerable<string> LocationList { get; set; }
+        public IList<string> LocationList { get; set; }
 	}
 }

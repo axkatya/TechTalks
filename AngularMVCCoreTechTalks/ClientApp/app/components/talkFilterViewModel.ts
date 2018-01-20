@@ -5,6 +5,6 @@
     public dateFrom: Date;
     public dateTo: Date;
     public disciplineName: string;
-    public locationName: string;
+    public location: string;
     public topic: string;
 }

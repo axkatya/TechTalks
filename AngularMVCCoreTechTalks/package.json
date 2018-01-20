@@ -61,7 +61,8 @@
     "zone.js": "0.8.12"
   },
   "dependencies": {
-    "angular2-datetimepicker": "^1.1.1",
+    "hummus": "^1.0.83",
+    "ng2-datetime": "^1.4.0",
     "ng2-smart-table": "^1.2.2"
   }
 }

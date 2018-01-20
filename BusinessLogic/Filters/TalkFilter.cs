@@ -1,5 +1,6 @@
 ﻿using DataAccess.Entities;
 using System;
+using System.Text.RegularExpressions;
 
 namespace BusinessLogic.Filters
 {
@@ -79,7 +80,7 @@ namespace BusinessLogic.Filters
 
         public Func<Talk, bool> FilterExpression => expr => (string.IsNullOrWhiteSpace(Location) || string.Equals(expr.Location, Location)) &&
                                                                                  (string.IsNullOrWhiteSpace(DisciplineName) || string.Equals(expr.Discipline.DisciplineName, DisciplineName)) &&
-                                                                                 (string.IsNullOrWhiteSpace(Topic) || string.Equals(expr.Topic, Topic)) &&
+                                                                                 (string.IsNullOrWhiteSpace(Topic) || expr.Topic.IndexOf(Topic.Trim(), StringComparison.OrdinalIgnoreCase) >= 0) &&
                                                                                  FilterSpeakerName(expr) &&                       
                                                                                  (DateFrom == null || expr.TalkDate >= DateFrom) &&
                                                                                  (DateTo == null || expr.TalkDate <= DateTo);
@@ -95,11 +96,23 @@ namespace BusinessLogic.Filters
                 return true;
             }
 
-            string[] speakerNameParts = SpeakerName.Trim().Split(SpeakerName, ' ');
+            SpeakerName = SpeakerName.Trim();
 
-            return ((speakerNameParts.Length == 1 && (string.Equals(speakerNameParts[0], expr.Speaker.FirstName) || string.Equals(speakerNameParts[0], expr.Speaker.LastName))) ||
-            (string.Equals(speakerNameParts[0], expr.Speaker.FirstName) && string.Equals(speakerNameParts[1], expr.Speaker.LastName)) ||
-                (string.Equals(speakerNameParts[0], expr.Speaker.LastName) && string.Equals(speakerNameParts[1], expr.Speaker.FirstName)));
+            if (!SpeakerName.Contains(" "))
+            {
+                return
+                    (string.Equals(SpeakerName, expr.Speaker.FirstName, StringComparison.CurrentCultureIgnoreCase) ||
+                    string.Equals(SpeakerName, expr.Speaker.LastName, StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            RegexOptions options = RegexOptions.None;
+            Regex regex = new Regex("[ ]{2,}", options);
+            SpeakerName = regex.Replace(SpeakerName, " ");
+
+            string[] speakerNameParts = SpeakerName.Split(' ');
+            
+            return  (string.Equals(speakerNameParts[0], expr.Speaker.FirstName, StringComparison.CurrentCultureIgnoreCase) && string.Equals(speakerNameParts[1], expr.Speaker.LastName, StringComparison.CurrentCultureIgnoreCase)) ||
+                (string.Equals(speakerNameParts[0], expr.Speaker.LastName, StringComparison.CurrentCultureIgnoreCase) && string.Equals(speakerNameParts[1], expr.Speaker.FirstName, StringComparison.CurrentCultureIgnoreCase));
         }
 
         #endregion

@@ -6,13 +6,14 @@ import { RouterModule } from '@angular/router';
 
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import * as $ from 'jquery';
-import { AngularDateTimePickerModule } from 'angular2-datetimepicker';
+import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime'
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { TalkComponent } from './components/talkdata/talkdata.component';
 import { TalkFilterViewModelService } from './components/talkFilterViewModel.service';
+import { TalkService } from './components/talk.service';
 
 @NgModule({
     declarations: [
@@ -33,10 +34,11 @@ import { TalkFilterViewModelService } from './components/talkFilterViewModel.ser
             { path: '**', redirectTo: 'home' }
         ]),
         Ng2SmartTableModule,
-        AngularDateTimePickerModule
+        NKDatetimeModule
     ],
     providers: [
-        TalkFilterViewModelService
+        TalkFilterViewModelService,
+        TalkService
     ]
 })
 export class AppModuleShared {
