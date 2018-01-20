@@ -1,11 +1,17 @@
 using AngularMVCCoreTechTalks;
+using AngularMVCCoreTechTalks.ViewModels;
 using DataAccess.EF;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.PlatformAbstractions;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,59 +21,60 @@ namespace WebApi.IntegrationTests
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
+
         public TalkFiltersRequestTests()
         {
+            AutoMapper.Mapper.Reset();
+
             // Arrange
-            //_server = new TestServer(new WebHostBuilder()
-            //    .UseStartup<Startup>());
-            //_client = _server.CreateClient();
+            var path = PlatformServices.Default.Application.ApplicationBasePath;
+            var setDir = Path.GetFullPath(path);
 
-            //    var webHostBuilder = new WebHostBuilder()
-            //.UseContentRoot(CalculateRelativeContentRootPath())
-            //.UseEnvironment("Development")
-            //.UseStartup<AngularMVCCoreTechTalks.Startup>()
-            //.UseApplicationInsights();
-            //    var testServer = new TestServer(webHostBuilder);
-            //    _client = testServer.CreateClient();
-            //    string CalculateRelativeContentRootPath() =>
-            //      Path.Combine(PlatformServices.Default.Application.ApplicationBasePath,
-            //         @"..\..\..\..\AngularMVCCoreTechTalks");
-
-            string curDir = Directory.GetCurrentDirectory();
             var _webHostBuilder = new WebHostBuilder()
-                .UseContentRoot(curDir)
+                .UseContentRoot(setDir)
                 .UseStartup<Startup>();
+            _webHostBuilder.ConfigureServices(s => s.AddDbContext<TalksContext>(options =>
+    options.UseSqlServer("Server=EPBYMOGW0013;Database=TalksDB;Integrated Security=True;MultipleActiveResultSets=True")));
+
             _server = new TestServer(_webHostBuilder);
-            _client = _server.CreateClient();
-
-            var serviceProvider = new ServiceCollection()
-                .AddEntityFrameworkSqlServer()
-                .BuildServiceProvider();
-
-            var builder = new DbContextOptionsBuilder<TalksContext>();
-
-            builder.UseSqlServer($"Server=EPBYMOGW0013;Database=TalksDB;Integrated Security=True;MultipleActiveResultSets=True")
-                 .UseInternalServiceProvider(serviceProvider);
-
+            _client = _server.CreateClient().AcceptJson();
         }
 
         [Fact]
         public async Task GetFilters()
         {
             // Act
-            var response = await _client.GetAsync("/api/talk/GetFilters");
-
-            var responseString = string.Empty;
-            if (response.IsSuccessStatusCode)
-            {
-                responseString = await response.Content.ReadAsStringAsync();
-            }
+            HttpResponseMessage response = await _client.GetAsync("/api/talk/GetFilters");
+            TalkFilterViewModel talkFilterViewModel = await response.Content.ReadAsJsonAsync<TalkFilterViewModel>();
 
             // Assert
-            Assert.Equal("Hello World!",
-                responseString);
+            Assert.True(response.IsSuccessStatusCode);
+            Assert.True(talkFilterViewModel.DisciplineList.Count > 0);
+            Assert.True(talkFilterViewModel.LocationList.Count > 0);
         }
 
+        [Fact]
+        public async Task GetFilteredTalks()
+        {
+            // Act
+            TalkFilterViewModel talkFilterViewModel = new TalkFilterViewModel
+            {
+                DisciplineName = string.Empty,
+                Location = string.Empty,
+                SpeakerName = string.Empty,
+                Topic = string.Empty,
+                DateFrom = null,
+                DateTo = null
+            };
 
+            var stringContent = new StringContent(JsonConvert.SerializeObject(talkFilterViewModel), Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("/api/talk/GetFilteredTalks", stringContent);
+            IEnumerable<TalkViewModel> talks = await response.Content.ReadAsJsonAsync<IEnumerable<TalkViewModel>>();
+
+            // Assert
+            Assert.True(response.IsSuccessStatusCode);
+            Assert.NotNull(talks);
+            Assert.True(talks.ToList().Count > 0);
+        }
     }
 }

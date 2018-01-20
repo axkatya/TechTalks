@@ -41,6 +41,9 @@ namespace AngularMVCCoreTechTalks.Controllers
 
             TalkFilterViewModel filterViewModel = Mapper.Map<TalkFilterViewModel>(talks);
 
+            filterViewModel.DisciplineList.Insert(0, string.Empty);
+            filterViewModel.LocationList.Insert(0, string.Empty);
+
             return filterViewModel;
         }
 
