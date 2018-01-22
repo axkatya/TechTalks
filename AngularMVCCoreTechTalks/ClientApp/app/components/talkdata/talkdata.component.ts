@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { Http, URLSearchParams, Headers } from '@angular/http';
+import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
 import { Talk } from '../talk';
 import { TalkFilterViewModel } from '../talkFilterViewModel';
 import { TalkFilterViewModelService } from '../talkFilterViewModel.service';
 import { TalkService } from '../talk.service';
+import { Router } from '@angular/router';
+import { SpeakerButtonRenderComponent } from '../button-render/speaker.button-render.component';
 
 @Component({
     selector: 'talkdata',
@@ -27,7 +28,7 @@ export class TalkComponent {
         todayBtn: 'linked',
         todayHighlight: true,
         assumeNearbyYear: true,
-        format: 'dd-MMM-yyyy'
+        format: 'dd-MM-yyyy'
     }
 
     private dateToSettings = {
@@ -35,7 +36,7 @@ export class TalkComponent {
         todayBtn: 'linked',
         todayHighlight: true,
         assumeNearbyYear: true,
-        format: 'dd-MMM-yyyy'
+        format: 'dd-MM-yyyy'
     }
 
     private talkSettings = {
@@ -51,7 +52,8 @@ export class TalkComponent {
             },
             speakerName: {
                 title: 'Speaker Name',
-                type: 'html'
+                type: 'custom',
+                renderComponent: SpeakerButtonRenderComponent
             },
             disciplineName: {
                 title: 'Discipline'
@@ -59,24 +61,25 @@ export class TalkComponent {
             location: {
                 title: 'Location'
             }
-        }
-    };
-
-    private dateFormatOptions = {
-        era: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        weekday: 'long',
-        timezone: 'UTC',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
+        },
+        delete: {
+            confirmDelete: true
+        },
+        actions: {
+            add: false,
+            edit: false,
+            custom: [{
+                name: 'edit',
+                title: 'Edit'
+            }
+            ]
+        }       
     };
 
     public talkFilterViewModelError: Boolean = false;
 
     constructor(
+        private _router: Router,
         private _talkFilterViewModelService: TalkFilterViewModelService,
         private _talkService: TalkService
     ) {
@@ -133,6 +136,24 @@ export class TalkComponent {
             this.source.load(result);
             this.source.refresh();
         });
+    }
+
+    onAddNewTalk() {
+        this._router.navigate(['/upsert-talk/']);
+    }
+
+    onCustom(event: any) {
+        this._router.navigate(['/upsert-talk/' + event.data.talkId]);
+    }
+
+    deleteRecord(event: any) {
+        var data: Talk = event.newData as Talk;
+
+        this._talkService.deleteTalk(event.data.talkId).subscribe(
+            result => {
+                event.confirm.resolve(event.source.data);
+            }
+        );
     }
 }
 

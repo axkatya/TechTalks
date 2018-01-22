@@ -30,7 +30,7 @@ namespace AngularMVCCoreTechTalks.Controllers
         #region Actions
 
         [HttpGet("[action]/{id}")]
-        public Speaker GetSpeaker(int id)
+        public Speaker GetSpeakerById(int id)
         {
             var speaker = _speakerService.GetById(id);
             return speaker;

@@ -37,12 +37,21 @@ namespace DataAccess.Services
         /// <summary>
         /// Executes the filters.
         /// </summary>
-        /// <param name="filterExpressiion">The filter expressiion.</param>
+        /// <param name="filterExpression">The filter expression.</param>
         /// <returns></returns>
-        public IEnumerable<Talk> ExecuteFilters(Func<Talk, bool> filterExpressiion)
+        public IEnumerable<Talk> ExecuteFilters(Func<Talk, bool> filterExpression)
 		{
-			return _repository.ExecuteFilters(filterExpressiion);
+			return _repository.ExecuteFilters(filterExpression);
 		}
+
+        /// <summary>
+        /// Deletes the talk by talk identifier.
+        /// </summary>
+        /// <param name="talkId">The talk identifier.</param>
+        public void DeleteTalkByTalkId(int talkId)
+        {
+            _repository.DeleteTalkByTalkId(talkId);
+        }
 
         #endregion
     }

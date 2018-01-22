@@ -1,0 +1,70 @@
+﻿<table>
+    <tr>
+        <td>
+            <label>Topic</label>
+        </td>
+        <td>
+            <input class="input" type="text" [(ngModel)]="this.talk.topic" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Talk Date</label>
+        </td>
+        <td>
+            <datetime [(ngModel)]="this.talk.talkDate"
+                      [hasClearButton]="true"
+                      [timepicker]="{ showMeridian: false, minuteStep: 1 }"
+                      [datepicker]="dateSettings"></datetime>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Additional Details</label>
+        </td>
+        <td>
+            <input class="input" type="text" [(ngModel)]="this.talk.additionalDetail" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Discipline</label>
+        </td>
+        <td>
+            <select class="select select--width-full" [(ngModel)]="this.talk.disciplineName" (change)="onSelectDisciplineFilter($event.target.value)">
+                <option *ngFor="let disciplineName of this.disciplineList" [value]="disciplineName">
+                    {{ disciplineName }}
+                </option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Location</label>
+        </td>
+        <td>
+            <select class="select select--width-full" [(ngModel)]="this.talk.location" (change)="onSelectLocationFilter($event.target.value)">
+                <option *ngFor="let locationName of this.locationList" [value]="locationName">
+                    {{ locationName }}
+                </option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Speaker</label>
+        </td>
+        <td>
+            <select class="select select--width-full" [(ngModel)]="this.talk.speakerName">
+                <option *ngFor="let speakerName of this.speakerList">
+                    {{ speakerName }}
+                </option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button (click)="onSave()">Save</button>
+        </td>
+    </tr>
+</table>

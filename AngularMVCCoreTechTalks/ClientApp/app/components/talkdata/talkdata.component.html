@@ -1,5 +1,4 @@
 <h2>Tech Talks</h2>
-
 <table>
     <tr>
         <td>
@@ -31,12 +30,11 @@
             <label class="label">Date From</label>
 
         <td>
-            <datetime [(ngModel)]="this.talkFilterViewModel.dateFrom" 
+            <datetime [(ngModel)]="this.talkFilterViewModel.dateFrom"
                       [hasClearButton]="true"
-                      [timepicker]="{ showMeridian: false, minuteStep: 1 }" 
+                      [timepicker]="{ showMeridian: false, minuteStep: 1 }"
                       [datepicker]="dateFromSettings"
-                      (ngModelChange)="onDateFromSelect($event)"
-                      ></datetime>
+                      (ngModelChange)="onDateFromSelect($event)"></datetime>
         </td>
     </tr>
 
@@ -69,7 +67,7 @@
 
 
     <tr>
-        <td class="td--textalign-right" colspan = "4">
+        <td class="td--textalign-right" colspan="4">
             <div>
                 <button (click)="onSearch()">Search</button>
             </div>
@@ -77,9 +75,12 @@
     </tr>
 
     <tr>
-        <td class="td--textalign-right" colspan = "4">
+        <td  colspan="2">
+            <button (click)="onAddNewTalk()">Add new talk</button>
+        </td>
+        <td class="td--textalign-right" colspan="2">
             <label class="label">Rows per page</label>
-       
+
             <select class="select" [(ngModel)]="this.rowsPerPage" (change)="onSelectRowsPerPage($event.target.value)">
                 <option *ngFor="let rowsPerPage of this.possibleRowsPerPage" [value]="rowsPerPage">
                     {{ rowsPerPage }}
@@ -88,8 +89,12 @@
         </td>
     </tr>
     <tr>
-        <td colspan = "4">
-            <ng2-smart-table *ngIf="source" [settings]="talkSettings" [source]="source">Loading....</ng2-smart-table>
+        <td colspan="4">
+            <ng2-smart-table *ngIf="source"
+                             [settings]="talkSettings"
+                             [source]="source"
+                             (custom)="onCustom($event)"
+                             (deleteConfirm)="deleteRecord($event)">Loading....</ng2-smart-table>
         </td>
     </tr>
 </table>

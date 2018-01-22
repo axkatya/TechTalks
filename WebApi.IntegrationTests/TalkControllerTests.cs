@@ -17,12 +17,12 @@ using Xunit;
 
 namespace WebApi.IntegrationTests
 {
-    public class TalkFiltersRequestTests
+    public class TalkControllerTests
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
 
-        public TalkFiltersRequestTests()
+        public TalkControllerTests()
         {
             AutoMapper.Mapper.Reset();
 
@@ -41,7 +41,7 @@ namespace WebApi.IntegrationTests
         }
 
         [Fact]
-        public async Task GetFilters()
+        public async Task GetFilters_WhenRequestFilters_ReturnFilters()
         {
             // Act
             HttpResponseMessage response = await _client.GetAsync("/api/talk/GetFilters");
@@ -54,7 +54,7 @@ namespace WebApi.IntegrationTests
         }
 
         [Fact]
-        public async Task GetFilteredTalks()
+        public async Task GetFilteredTalks_WhenRequestAllTalks_ReturnAllTalks()
         {
             // Act
             TalkFilterViewModel talkFilterViewModel = new TalkFilterViewModel

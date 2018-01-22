@@ -8,6 +8,14 @@ namespace AngularMVCCoreTechTalks.ViewModels
     public class TalkViewModel
     {
         /// <summary>
+        /// Gets or sets the talk identifier.
+        /// </summary>
+        /// <value>
+        /// The talk identifier.
+        /// </value>
+        public int TalkId { get; set; }
+
+        /// <summary>
         /// Gets or sets the talk date.
         /// </summary>
         /// <value>
@@ -32,12 +40,28 @@ namespace AngularMVCCoreTechTalks.ViewModels
         public string AdditionalDetail { get; set; }
 
         /// <summary>
+        /// Gets or sets the speaker identifier.
+        /// </summary>
+        /// <value>
+        /// The speaker identifier.
+        /// </value>
+        public int SpeakerId { get; set; }
+
+        /// <summary>
         /// Gets or sets the name of the speaker.
         /// </summary>
         /// <value>
         /// The name of the speaker.
         /// </value>
         public string SpeakerName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the discipline identifier.
+        /// </summary>
+        /// <value>
+        /// The discipline identifier.
+        /// </value>
+        public int DisciplineId { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the discipline.

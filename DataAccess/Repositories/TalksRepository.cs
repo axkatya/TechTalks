@@ -61,6 +61,17 @@ namespace DataAccess.Repositories
             return Db.Talks.Include(discipline => discipline.Discipline).Include(speaker => speaker.Speaker).Where(filterExpressiion).ToList();
         }
 
+        /// <summary>
+        /// Deletes the talk by talk identifier.
+        /// </summary>
+        /// <param name="talkId">The talk identifier.</param>
+        public void DeleteTalkByTalkId(int talkId)
+        {
+            Talk talk = new Talk() { TalkId = talkId };
+            Db.Talks.Attach(talk);
+            this.Delete(talk);
+        }
+
         #endregion
     }
 }

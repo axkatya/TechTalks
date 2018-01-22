@@ -47,6 +47,13 @@ namespace AngularMVCCoreTechTalks.Controllers
             return filterViewModel;
         }
 
+        [HttpGet("[action]/{id}")]
+        public Talk GetTalkById(int id)
+        {
+            Talk talk = _talkService.GetById(id);
+            return talk;
+        }
+
         [HttpPost("[action]")]
         public IEnumerable<TalkViewModel> GetFilteredTalks([FromBody]TalkFilterViewModel talkFilterViewModel)
         {
@@ -54,6 +61,24 @@ namespace AngularMVCCoreTechTalks.Controllers
             var talks = _talkService.ExecuteFilters(filter.FilterExpression);
             IEnumerable<TalkViewModel> talksViewModel = Mapper.Map<IEnumerable<TalkViewModel>>(talks);
             return talksViewModel;
+        }
+
+        [HttpPost("[action]")]
+        public void CreateTalk([FromBody]Talk talk)
+        {
+            _talkService.Create(talk);
+        }
+
+        [HttpPut("[action]/{id}")]
+        public void UpdateTalk(int id, [FromBody]Talk talk)
+        {
+            _talkService.Update(talk);
+        }
+
+        [HttpDelete("[action]/{id}")]
+        public void DeleteTalk(int id)
+        {
+            _talkService.DeleteTalkByTalkId(id);
         }
 
         #endregion
