@@ -1,10 +1,13 @@
-﻿<table>
+﻿<h2 *ngIf="this.talk.talkId > 0; else elseBlock">Update Talk</h2>
+<ng-template #elseBlock>Create Talk</ng-template>
+
+<table>
     <tr>
         <td>
             <label>Topic</label>
         </td>
         <td>
-            <input class="input" type="text" [(ngModel)]="this.talk.topic" />
+            <input [disabled]="this.isNewSpeaker" class="input" type="text" [(ngModel)]="this.talk.topic" />
         </td>
     </tr>
     <tr>
@@ -12,7 +15,8 @@
             <label>Talk Date</label>
         </td>
         <td>
-            <datetime [(ngModel)]="this.talk.talkDate"
+            <datetime [disabled]="this.isNewSpeaker"
+                      [(ngModel)]="this.talk.talkDate"
                       [hasClearButton]="true"
                       [timepicker]="{ showMeridian: false, minuteStep: 1 }"
                       [datepicker]="dateSettings"></datetime>
@@ -23,7 +27,7 @@
             <label>Additional Details</label>
         </td>
         <td>
-            <input class="input" type="text" [(ngModel)]="this.talk.additionalDetail" />
+            <input [disabled]="this.isNewSpeaker" class="input" type="text" [(ngModel)]="this.talk.additionalDetail" />
         </td>
     </tr>
     <tr>
@@ -31,7 +35,7 @@
             <label>Discipline</label>
         </td>
         <td>
-            <select class="select select--width-full" [(ngModel)]="this.talk.disciplineName" (change)="onSelectDisciplineFilter($event.target.value)">
+            <select [disabled]="this.isNewSpeaker" class="select select--width-full" [(ngModel)]="this.talk.disciplineName" (change)="onSelectDisciplineFilter($event.target.value)">
                 <option *ngFor="let disciplineName of this.disciplineList" [value]="disciplineName">
                     {{ disciplineName }}
                 </option>
@@ -43,7 +47,7 @@
             <label>Location</label>
         </td>
         <td>
-            <select class="select select--width-full" [(ngModel)]="this.talk.location" (change)="onSelectLocationFilter($event.target.value)">
+            <select [disabled]="this.isNewSpeaker" class="select select--width-full" [(ngModel)]="this.talk.location" (change)="onSelectLocationFilter($event.target.value)">
                 <option *ngFor="let locationName of this.locationList" [value]="locationName">
                     {{ locationName }}
                 </option>
@@ -55,16 +59,30 @@
             <label>Speaker</label>
         </td>
         <td>
-            <select class="select select--width-full" [(ngModel)]="this.talk.speakerName">
+            <select [disabled]="this.isNewSpeaker" class="select select--width-full" [(ngModel)]="this.talk.speakerName">
                 <option *ngFor="let speakerName of this.speakerList">
                     {{ speakerName }}
                 </option>
             </select>
         </td>
+        <td>
+            <div *ngIf="!this.isNewSpeaker">
+                <a (click)="onCreateNewSpeaker()">Create new speaker</a>
+            </div>
+        </td>
     </tr>
     <tr>
         <td>
-            <button (click)="onSave()">Save</button>
+            <div *ngIf="this.isNewSpeaker">
+                <upsert-speaker (notify)="onNotifyFromUpsertSpeaker($event)"></upsert-speaker>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+
+            <button [disabled]="this.isNewSpeaker" (click)="onSave()">Save Talk</button>
+
         </td>
     </tr>
 </table>

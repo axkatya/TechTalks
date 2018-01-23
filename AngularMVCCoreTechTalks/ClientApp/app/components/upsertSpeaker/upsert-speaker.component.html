@@ -1,0 +1,58 @@
+﻿<h2 *ngIf="this.speaker.speakerId > 0; else elseBlock">Update Speaker</h2>
+<ng-template #elseBlock>Create Speaker</ng-template>
+
+<table>
+    <tr>
+        <td>
+            <label>First Name</label>
+        </td>
+        <td>
+            <input class="input" type="text" [(ngModel)]="this.speaker.firstName" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Last Name</label>
+        </td>
+        <td>
+            <input class="input" type="text" [(ngModel)]="this.speaker.lastName" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Email</label>
+        </td>
+        <td>
+            <input class="input" type="text" [(ngModel)]="this.speaker.email" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Location</label>
+        </td>
+        <td>
+            <input class="input" type="text" [(ngModel)]="this.speaker.location" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Position</label>
+        </td>
+        <td>
+            <input class="input" type="text" [(ngModel)]="this.speaker.position" />
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Department</label>
+        </td>
+        <td>
+            <input class="input" type="text" [(ngModel)]="this.speaker.department" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button (click)="onSave()">Save Speaker</button>
+        </td>
+    </tr>
+</table>

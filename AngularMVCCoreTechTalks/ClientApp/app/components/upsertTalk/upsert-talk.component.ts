@@ -1,19 +1,21 @@
 ﻿import { Component } from '@angular/core';
 import { Talk } from '../talk';
+import { Speaker } from '../speaker';
 import { TalkService } from '../talk.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router} from '@angular/router';
+import { UpsertSpeakerComponent } from '../upsertSpeaker/upsert-speaker.component';
 
 @Component({
-    selector: 'upsertTalkData',
-    templateUrl: './upserttalk.component.html'
+    selector: 'upsert-talk',
+    templateUrl: './upsert-talk.component.html'
 })
 
 export class UpsertTalkComponent {
-    private baseUrl: string;
     private talk: Talk;
     private disciplineList: string[];
     private locationList: string[];
     private speakerList: string[];
+    private isNewSpeaker: boolean = false;
 
     private dateSettings = {
         autoclose: true,
@@ -23,7 +25,11 @@ export class UpsertTalkComponent {
         format: 'dd-MM-yyyy'
     }
 
-    constructor(private _route: ActivatedRoute, private _talkService: TalkService) {
+    constructor(
+        private _route: ActivatedRoute,
+        private _router: Router,
+        private _talkService: TalkService
+    ) {
         this.talk = new Talk();
     }
 
@@ -38,8 +44,18 @@ export class UpsertTalkComponent {
         });
     }
 
-    ngSave() {
-        this._talkService.upsert(this.talk);        
+    onSave() {
+        this._talkService.upsert(this.talk);
+        this._router.navigate(['/talk-data']);
+    }
+
+    onCreateNewSpeaker() {
+        this.isNewSpeaker = true;
+    }
+
+    onNotifyFromUpsertSpeaker(speaker: Speaker) {
+        this.isNewSpeaker = false;
+        this.talk.speakerName = speaker.firstName + ' ' + speaker.lastName;
     }
 }
 

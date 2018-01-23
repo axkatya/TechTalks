@@ -13,7 +13,8 @@ import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { HomeComponent } from './components/home/home.component';
 import { TalkComponent } from './components/talkdata/talkdata.component';
 import { SpeakerComponent } from './components/speaker/speaker.component';
-import { UpsertTalkComponent } from './components/upserttalk/upsertTalk.component';
+import { UpsertTalkComponent } from './components/upsertTalk/upsert-talk.component';
+import { UpsertSpeakerComponent } from './components/upsertSpeaker/upsert-speaker.component';
 
 import { SpeakerButtonRenderComponent } from './components/button-render/speaker.button-render.component';
 
@@ -29,7 +30,8 @@ import { SpeakerService } from './components/speaker.service';
         SpeakerButtonRenderComponent,
         TalkComponent,
         SpeakerComponent,
-        UpsertTalkComponent
+        UpsertTalkComponent,
+        UpsertSpeakerComponent
     ],
     imports: [
         CommonModule,
@@ -39,9 +41,11 @@ import { SpeakerService } from './components/speaker.service';
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'home', component: HomeComponent },
             { path: 'talk-data', component: TalkComponent },
-            { path: 'speaker', component: SpeakerComponent },
-            { path: 'speaker/:id', component: SpeakerComponent},
+            { path: 'speaker/:id', component: SpeakerComponent },
+            { path: 'upsert-talk', component: UpsertTalkComponent },
             { path: 'upsert-talk/:id', component: UpsertTalkComponent },
+            { path: 'upsert-speaker', component: UpsertSpeakerComponent },
+            { path: 'upsert-speaker/:id', component: UpsertSpeakerComponent },
             { path: '**', redirectTo: 'home' }
         ]),
         Ng2SmartTableModule,

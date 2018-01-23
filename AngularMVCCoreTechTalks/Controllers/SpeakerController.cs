@@ -36,6 +36,18 @@ namespace AngularMVCCoreTechTalks.Controllers
             return speaker;
         }
 
+        [HttpPost("[action]")]
+        public void CreateSpeaker([FromBody]Speaker speaker)
+        {
+            _speakerService.Create(speaker);
+        }
+
+        [HttpPut("[action]/{id}")]
+        public void UpdateSpeaker(int id, [FromBody]Speaker speaker)
+        {
+            _speakerService.Update(speaker);
+        }
+
         #endregion
     }
 }

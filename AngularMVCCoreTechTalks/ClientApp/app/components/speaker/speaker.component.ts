@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Speaker } from '../speaker';
 import { SpeakerService } from '../speaker.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'speakerdata',
@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class SpeakerComponent {
     private baseUrl: string;
     private speaker: Speaker;
+    private isUpdateSpeaker: boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
@@ -25,6 +26,15 @@ export class SpeakerComponent {
                 this.speaker = result;
             });
         });
+    }
+
+    onUpdateSpeaker() {
+        this.isUpdateSpeaker = true;
+    }
+
+    onNotifyFromUpsertSpeaker(speaker: Speaker) {
+        this.isUpdateSpeaker = false;
+        this.speaker = speaker;
     }
 }
 
