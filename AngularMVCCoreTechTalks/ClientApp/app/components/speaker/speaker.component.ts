@@ -1,7 +1,7 @@
 ﻿import { Component, OnInit } from '@angular/core';
 import { Speaker } from '../speaker';
 import { SpeakerService } from '../speaker.service';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'speakerdata',
@@ -16,7 +16,7 @@ export class SpeakerComponent {
     constructor(
         private _route: ActivatedRoute,
         private _speakerService: SpeakerService) {
-
+        this.speaker = new Speaker();
     }
 
     ngOnInit() {
