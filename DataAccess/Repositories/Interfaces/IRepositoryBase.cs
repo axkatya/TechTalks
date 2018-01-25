@@ -4,7 +4,7 @@ namespace DataAccess.Repositories.Interfaces
 {
 	public interface IRepositoryBase<T> where T : class
 	{
-		void Create(T obj);
+		T Create(T obj);
 
 		T GetById(int id);
 
@@ -14,6 +14,9 @@ namespace DataAccess.Repositories.Interfaces
 
 		void Delete(T obj);
 
-		void Dispose();
+        void DeleteById(int id);
+
+
+        void Dispose();
 	}
 }

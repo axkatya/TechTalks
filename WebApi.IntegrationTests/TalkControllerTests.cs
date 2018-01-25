@@ -1,6 +1,9 @@
 using AngularMVCCoreTechTalks;
+using AngularMVCCoreTechTalks.Automapper.Profiles;
 using AngularMVCCoreTechTalks.ViewModels;
+using AutoMapper;
 using DataAccess.EF;
+using DataAccess.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +27,7 @@ namespace WebApi.IntegrationTests
 
         public TalkControllerTests()
         {
-            AutoMapper.Mapper.Reset();
+            ServiceCollectionExtensions.UseStaticRegistration = false;
 
             // Arrange
             var path = PlatformServices.Default.Application.ApplicationBasePath;
@@ -44,6 +47,13 @@ namespace WebApi.IntegrationTests
         public async Task GetFilters_WhenRequestFilters_ReturnFilters()
         {
             // Act
+            AutoMapper.Mapper.Reset();
+
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<TalkToTalkFilterViewModelProfile>();
+            });
+
             HttpResponseMessage response = await _client.GetAsync("/api/talk/GetFilters");
             TalkFilterViewModel talkFilterViewModel = await response.Content.ReadAsJsonAsync<TalkFilterViewModel>();
 
@@ -57,6 +67,14 @@ namespace WebApi.IntegrationTests
         public async Task GetFilteredTalks_WhenRequestAllTalks_ReturnAllTalks()
         {
             // Act
+            AutoMapper.Mapper.Reset();
+
+            Mapper.Initialize(x =>
+            {
+                x.AddProfile<TalkFilterViewModelToTalkFilterProfile>();
+                x.AddProfile<TalkToTalkViewModelProfile>();
+            });
+
             TalkFilterViewModel talkFilterViewModel = new TalkFilterViewModel
             {
                 DisciplineName = string.Empty,
@@ -75,6 +93,82 @@ namespace WebApi.IntegrationTests
             Assert.True(response.IsSuccessStatusCode);
             Assert.NotNull(talks);
             Assert.True(talks.ToList().Count > 0);
+        }
+
+        [Fact]
+        public async Task CreateTalk()
+        {
+            //Arrange
+            Talk talk = new Talk
+            {
+                Topic = "IntTest_test",
+                Location = "IntTest_Room 67",
+                AdditionalDetail = "IntTest_",
+                SpeakerId = 1,
+                DisciplineId = 1
+            };
+
+            var stringContent = new StringContent(JsonConvert.SerializeObject(talk), Encoding.UTF8, "application/json");
+
+            // Act
+            HttpResponseMessage response = await _client.PostAsync("api/talk/CreateTalk", stringContent);
+            talk = await response.Content.ReadAsJsonAsync<Talk>();
+
+            // Assert
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public async Task UpdateTalk()
+        {
+            //Arrange
+            Talk talk = new Talk
+            {
+                TalkId = 1,
+                Topic = "IntTest_test",
+                Location = "IntTest_Room 67",
+                AdditionalDetail = "IntTest_",
+                SpeakerId = 85,
+                DisciplineId = 1
+            };
+
+            var stringContent = new StringContent(JsonConvert.SerializeObject(talk), Encoding.UTF8, "application/json");
+
+            // Act
+            HttpResponseMessage response = await _client.PutAsync($"api/talk/UpdateTalk/{talk.TalkId}", stringContent);
+
+            // Assert
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public void DeleteTalk()
+        {
+            //Arrange
+            Talk newTalk = new Talk
+            {
+                TalkDate = new System.DateTime(2018, 9, 9),
+                Topic = "IntTest_test",
+                Location = "IntTest_Room 67",
+                AdditionalDetail = "IntTest_",
+                SpeakerId = 1,
+                DisciplineId = 1
+            };
+
+            var stringContent = new StringContent(JsonConvert.SerializeObject(newTalk), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = new HttpResponseMessage();
+
+            // Act
+            Task t = new Task(() =>
+            {
+                response = _client.PostAsync("api/talk/CreateTalk", stringContent).GetAwaiter().GetResult();
+                Talk createdTalk = response.Content.ReadAsJsonAsync<Talk>().GetAwaiter().GetResult();
+                response = _client.DeleteAsync("api/talk/DeleteTalk/" + createdTalk.TalkId).GetAwaiter().GetResult();
+            });
+            t.RunSynchronously();
+
+            // Assert
+            Assert.True(response.IsSuccessStatusCode);
         }
     }
 }

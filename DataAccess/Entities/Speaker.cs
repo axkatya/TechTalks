@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Entities
 {
@@ -70,6 +71,15 @@ namespace DataAccess.Entities
         /// The location.
         /// </value>
         public string Location { get; set; }
+
+        /// <summary>
+        /// Gets or sets the row version.
+        /// </summary>
+        /// <value>
+        /// The row version.
+        /// </value>
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
 
         /// <summary>
         /// Gets or sets the talks.

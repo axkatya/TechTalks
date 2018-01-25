@@ -84,6 +84,102 @@ namespace WebApi.UnitTests.Controllers
             result.Count().CompareTo(2);
         }
 
+        [Fact]
+        public void UpdateTalkTest()
+        {
+            // Arrange
+            Talk talk = new Talk
+            {
+                TalkId = 1,
+                Topic = "test",
+                Location = "Room 67",
+                AdditionalDetail = "",
+                SpeakerId = 1,
+                DisciplineId = 1
+            };
+
+            var mockTalkService = new Mock<ITalkService>();
+
+            mockTalkService.Setup(x => x.Update(talk));
+
+            var controller = new TalkController(mockTalkService.Object);
+
+            // Act
+            controller.UpdateTalk(talk.TalkId, talk);
+
+            // Assert
+            mockTalkService.Verify(mock => mock.Update(talk), Times.Once());
+        }
+
+        [Fact]
+        public void CreateTalkTest()
+        {
+            // Arrange
+            Talk talk = new Talk
+            {
+                Topic = "test",
+                Location = "Room 67",
+                AdditionalDetail = "",
+                SpeakerId = 1,
+                DisciplineId = 1
+            };
+
+            var mockTalkService = new Mock<ITalkService>();
+
+            mockTalkService.Setup(x => x.Create(talk));
+
+            var controller = new TalkController(mockTalkService.Object);
+
+            // Act
+            controller.CreateTalk(talk);
+
+            // Assert
+            mockTalkService.Verify(mock => mock.Create(talk), Times.Once());
+        }
+
+        [Fact]
+        public void DeleteTalkTest()
+        {
+            // Arrange
+            var discipline = new Discipline
+            {
+                DisciplineId = 1,
+                DisciplineName = ".NET"
+            };
+
+            var speaker = new Speaker
+            {
+                SpeakerId = 1,
+                FirstName = "Ivan",
+                LastName = "Pupkin",
+                Position = "SE",
+                Location = "Minsk"
+            };
+
+            Talk talk = new Talk
+            {
+                Topic = "test",
+                Location = "Room 67",
+                AdditionalDetail = "",
+                Speaker = speaker,
+                SpeakerId = speaker.SpeakerId,
+                Discipline = discipline,
+                DisciplineId = discipline.DisciplineId
+            };
+
+            var mockTalkService = new Mock<ITalkService>();
+
+            mockTalkService.Setup(x => x.DeleteById(talk.TalkId));
+
+            var controller = new TalkController(mockTalkService.Object);
+
+            // Act
+            controller.DeleteTalk(talk.TalkId);
+
+            // Assert
+            mockTalkService.Verify(mock => mock.DeleteById(talk.TalkId), Times.Once());
+        }
+
         private IEnumerable<Talk> GetAllTalks()
         {
             IList<Talk> talks = new List<Talk>();

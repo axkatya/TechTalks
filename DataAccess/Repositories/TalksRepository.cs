@@ -44,7 +44,7 @@ namespace DataAccess.Repositories
         /// </returns>
         public override IEnumerable<Talk> GetAll()
         {
-            return Db.Talks.Include(discipline => discipline.Discipline).Include(speaker => speaker.Speaker).ToList();
+            return Context.Talks.Include(discipline => discipline.Discipline).Include(speaker => speaker.Speaker).ToList();
         }
 
         #endregion
@@ -58,18 +58,7 @@ namespace DataAccess.Repositories
         /// <returns></returns>
         public IEnumerable<Talk> ExecuteFilters(Func<Talk, bool> filterExpressiion)
         {
-            return Db.Talks.Include(discipline => discipline.Discipline).Include(speaker => speaker.Speaker).Where(filterExpressiion).ToList();
-        }
-
-        /// <summary>
-        /// Deletes the talk by talk identifier.
-        /// </summary>
-        /// <param name="talkId">The talk identifier.</param>
-        public void DeleteTalkByTalkId(int talkId)
-        {
-            Talk talk = new Talk() { TalkId = talkId };
-            Db.Talks.Attach(talk);
-            this.Delete(talk);
+            return Context.Talks.Include(discipline => discipline.Discipline).Include(speaker => speaker.Speaker).Where(filterExpressiion).ToList();
         }
 
         #endregion

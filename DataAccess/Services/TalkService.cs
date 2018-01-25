@@ -44,15 +44,6 @@ namespace DataAccess.Services
 			return _repository.ExecuteFilters(filterExpression);
 		}
 
-        /// <summary>
-        /// Deletes the talk by talk identifier.
-        /// </summary>
-        /// <param name="talkId">The talk identifier.</param>
-        public void DeleteTalkByTalkId(int talkId)
-        {
-            _repository.DeleteTalkByTalkId(talkId);
-        }
-
         #endregion
     }
 }

@@ -33,12 +33,23 @@ namespace DataAccess.IntegrationTests
         public void GetAll_WhenOneRecordExists_ShouldReturnOneRecordWithRelatedRows()
         {
             // Arrange
-            var discipline = new Discipline { DisciplineName = ".NET" };
-            var speaker = new Speaker { FirstName = "Ivan", LastName = "Pupkin", Position = "SE", Location = "Minsk" };
+            var discipline = new Discipline
+            {
+                DisciplineName = "IntTest_.NET"
+            };
+
+            var speaker = new Speaker
+            {
+                FirstName = "IntTest_Ivan",
+                LastName = "IntTest_Pupkin",
+                Position = "IntTest_SE",
+                Location = "IntTest_Minsk"
+            };
+
             _talksContext.Talks.Add(new Talk
             {
-                Location = "L3, Room 54",
-                Topic = "SignalR",
+                Location = "IntTest_L3, Room 54",
+                Topic = "IntTest_SignalR",
                 Discipline = discipline,
                 Speaker = speaker
             });
@@ -52,32 +63,46 @@ namespace DataAccess.IntegrationTests
             //Assert
             Assert.Equal(1, talks.Count());
             var talk = talks.First();
-            Assert.Equal("SignalR", talk.Topic);
-            Assert.Equal("Ivan", talk.Speaker.FirstName);
-            Assert.Equal("Pupkin", talk.Speaker.LastName);
-            Assert.Equal(".NET", talk.Discipline.DisciplineName);
+            Assert.Equal("IntTest_SignalR", talk.Topic);
+            Assert.Equal("IntTest_Ivan", talk.Speaker.FirstName);
+            Assert.Equal("IntTest_Pupkin", talk.Speaker.LastName);
+            Assert.Equal("IntTest_.NET", talk.Discipline.DisciplineName);
         }
 
         [Fact]
         public void ExecuteFilters_WhenOneRecordByFilterExists_ShouldReturnOneRecordWithRelatedRows()
         {
             // Arrange
-            var discipline = new Discipline { DisciplineName = ".NET" };
-            var speaker = new Speaker { FirstName = "Ivan", LastName = "Pupkin", Position = "SE", Location = "Minsk" };
+            var discipline = new Discipline { DisciplineName = "IntTest_.NET" };
+            var speaker = new Speaker
+            {
+                FirstName = "IntTest_Ivan",
+                LastName = "IntTest_Pupkin",
+                Position = "IntTest_SE",
+                Location = "IntTest_Minsk"
+            };
+
             _talksContext.Talks.Add(new Talk
             {
-                Location = "L3, Room 54",
-                Topic = "SignalR",
+                Location = "IntTest_L3, Room 54",
+                Topic = "IntTest_SignalR",
                 Discipline = discipline,
                 Speaker = speaker
             });
 
-            discipline = new Discipline { DisciplineName = "JavaScript" };
-            speaker = new Speaker { FirstName = "Vasiliy", LastName = "Mirinov", Position = "SSE", Location = "Moscow" };
+            discipline = new Discipline { DisciplineName = "IntTest_JavaScript" };
+            speaker = new Speaker
+            {
+                FirstName = "IntTest_Vasiliy",
+                LastName = "IntTest_Mirinov",
+                Position = "IntTest_SSE",
+                Location = "IntTest_Moscow"
+            };
+
             _talksContext.Talks.Add(new Talk
             {
-                Location = "L1, Room 12",
-                Topic = "JSPatterns",
+                Location = "IntTest_L1, Room 12",
+                Topic = "IntTest_JSPatterns",
                 Discipline = discipline,
                 Speaker = speaker
             });
@@ -86,7 +111,7 @@ namespace DataAccess.IntegrationTests
 
             TalkFilter filter = new TalkFilter
             {
-                DisciplineName = ".NET",
+                DisciplineName = "IntTest_.NET",
                 Location = string.Empty,
                 SpeakerName = string.Empty,
                 Topic = string.Empty,
@@ -102,10 +127,114 @@ namespace DataAccess.IntegrationTests
             //Assert
             Assert.Equal(1, talks.Count());
             var talk = talks.First();
-            Assert.Equal("SignalR", talk.Topic);
-            Assert.Equal("Ivan", talk.Speaker.FirstName);
-            Assert.Equal("Pupkin", talk.Speaker.LastName);
-            Assert.Equal(".NET", talk.Discipline.DisciplineName);
+            Assert.Equal("IntTest_SignalR", talk.Topic);
+            Assert.Equal("IntTest_Ivan", talk.Speaker.FirstName);
+            Assert.Equal("IntTest_Pupkin", talk.Speaker.LastName);
+            Assert.Equal("IntTest_.NET", talk.Discipline.DisciplineName);
+        }
+
+        [Fact]
+        public void CreateTalk_WhenTalkCreated_ShouldReturnTalkId()
+        {
+            // Arrange
+            var discipline = new Discipline
+            {
+                DisciplineName = "IntTest_.NET"
+            };
+
+            var speaker = new Speaker {
+                FirstName = "IntTest_Ivan",
+                LastName = "IntTest_Pupkin",
+                Position = "IntTest_SE",
+                Location = "IntTest_Minsk"
+            };
+
+            Talk talk = new Talk
+            {
+                Location = "IntTest_L3, Room 54",
+                Topic = "IntTest_SignalR",
+                Discipline = discipline,
+                Speaker = speaker
+            };
+
+            //Act
+            TalksRepository talksRepository = new TalksRepository(_talksContext);
+            Talk actualResult = talksRepository.Create(talk);
+
+            //Assert
+            Assert.True(actualResult.TalkId > 0);
+        }
+
+        [Fact]
+        public void UpdateTalk_WhenTalkUpdated_ShouldReturnUpdatedTalk()
+        {
+            // Arrange
+            var discipline = new Discipline { DisciplineName = "IntTest_.NET" };
+            var speaker = new Speaker
+            {
+                FirstName = "IntTest_Ivan",
+                LastName = "IntTest_Pupkin",
+                Position = "IntTest_SE",
+                Location = "IntTest_Minsk"
+            };
+
+            Talk talk = new Talk
+            {
+                TalkId = 1,
+                Location = "IntTest_L3, Room 54",
+                Topic = "IntTest_SignalR",
+                Discipline = discipline,
+                Speaker = speaker
+            };
+
+            //Act
+            TalksRepository talksRepository = new TalksRepository(_talksContext);
+            talksRepository.Update(talk);
+
+            //Assert
+            var actualResult = talksRepository.GetById(talk.TalkId);
+            Assert.Equal(talk.Topic, actualResult.Topic);
+        }
+
+        [Fact]
+        public void DeleteTalk_WhenTalkDeleted_ShouldNotReturnDeletedTalk()
+        {
+            // Arrange
+            var discipline = new Discipline
+            {
+                DisciplineId = 1,
+                DisciplineName = "IntTest_.NET"
+            };
+
+            var speaker = new Speaker
+            {
+                SpeakerId = 1,
+                FirstName = "IntTest_Ivan",
+                LastName = "IntTest_Pupkin",
+                Position = "IntTest_SE",
+                Location = "IntTest_Minsk"
+            };
+
+            Talk talk = new Talk
+            {
+                Topic = "IntTest_test",
+                Location = "IntTest_Room 67",
+                AdditionalDetail = "",
+                Speaker = speaker,
+                SpeakerId = speaker.SpeakerId,
+                Discipline = discipline,
+                DisciplineId = discipline.DisciplineId
+            };
+
+            TalksRepository talksRepository = new TalksRepository(_talksContext);
+            Talk newTalk = talksRepository.Create(talk);
+
+            //Act
+            talksRepository.DeleteById(newTalk.TalkId);
+
+            //Assert
+            var actualResult = talksRepository.GetById(newTalk.TalkId);
+            Assert.Null(actualResult);
         }
 
         public void Dispose()

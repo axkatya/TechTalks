@@ -10,5 +10,8 @@ namespace DataAccess.Services.Interfaces
 		void Update(T item);
 
 		void Delete(T item);
-	}
+
+        void DeleteById(int id);
+
+    }
 }

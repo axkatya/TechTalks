@@ -51,6 +51,15 @@ namespace DataAccess.Services
         }
 
         /// <summary>
+        /// Deletes the specified item by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        public void DeleteById(int id)
+        {
+            _repositoryBase.DeleteById(id);
+        }
+
+        /// <summary>
         /// Gets the by identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>

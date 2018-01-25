@@ -33,7 +33,7 @@ export class SpeakerService {
     }
 
     createSpeaker(speaker: Speaker) {
-        return this.http.post(this.baseUrl + 'api/Speaker/CreateSpeaker/', speaker, this.options)
+        return this.http.post(this.baseUrl + 'api/Speaker/CreateSpeaker', speaker, this.options)
             .map(result => result as any);
     }
 

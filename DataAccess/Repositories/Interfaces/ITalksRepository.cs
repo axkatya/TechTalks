@@ -7,7 +7,5 @@ namespace DataAccess.Repositories.Interfaces
 	public interface ITalksRepository : IRepositoryBase<Talk>
     {
 		IEnumerable<Talk> ExecuteFilters(Func<Talk, bool> filterExpression);
-
-        void DeleteTalkByTalkId(int talkId);
     }
 }

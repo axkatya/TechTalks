@@ -78,7 +78,7 @@ namespace AngularMVCCoreTechTalks.Controllers
         [HttpDelete("[action]/{id}")]
         public void DeleteTalk(int id)
         {
-            _talkService.DeleteTalkByTalkId(id);
+            _talkService.DeleteById(id);
         }
 
         #endregion

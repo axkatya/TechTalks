@@ -14,7 +14,7 @@ namespace BusinessLogic.UnitTests
             // Arrange
             TalkFilter filter = new TalkFilter
             {
-                DisciplineName = "FT",
+                DisciplineName = "UnitTest_FT",
                 Location = string.Empty,
                 SpeakerName = string.Empty,
                 Topic = string.Empty,
@@ -41,7 +41,7 @@ namespace BusinessLogic.UnitTests
             {
                 DisciplineName = string.Empty,
                 Location = string.Empty,
-                SpeakerName = "   oleg ",
+                SpeakerName = "   UnitTest_oleg ",
                 Topic = string.Empty,
                 DateFrom = null,
                 DateTo = null
@@ -66,7 +66,7 @@ namespace BusinessLogic.UnitTests
             {
                 DisciplineName = string.Empty,
                 Location = string.Empty,
-                SpeakerName = "   ivanov ",
+                SpeakerName = "   UnitTest_ivanov ",
                 Topic = string.Empty,
                 DateFrom = null,
                 DateTo = null
@@ -91,7 +91,7 @@ namespace BusinessLogic.UnitTests
             {
                 DisciplineName = string.Empty,
                 Location = string.Empty,
-                SpeakerName = "   oleg pupkin ",
+                SpeakerName = "   UnitTest_oleg UnitTest_pupkin ",
                 Topic = string.Empty,
                 DateFrom = null,
                 DateTo = null
@@ -116,7 +116,7 @@ namespace BusinessLogic.UnitTests
             {
                 DisciplineName = string.Empty,
                 Location = string.Empty,
-                SpeakerName = "   oleg   pupkin ",
+                SpeakerName = "   UnitTest_oleg   UnitTest_pupkin ",
                 Topic = string.Empty,
                 DateFrom = null,
                 DateTo = null
@@ -142,7 +142,7 @@ namespace BusinessLogic.UnitTests
                 DisciplineName = string.Empty,
                 Location = string.Empty,
                 SpeakerName = string.Empty,
-                Topic = "  async ",
+                Topic = " UnitTest_async ",
                 DateFrom = null,
                 DateTo = null
             };
@@ -165,20 +165,21 @@ namespace BusinessLogic.UnitTests
             talks.Add(new Talk()
             {
                 TalkId = 1,
-                Discipline = new Discipline { DisciplineId = 1, DisciplineName = "Java" },
-                Speaker = new Speaker { SpeakerId = 1, FirstName = "Oleg", LastName = "Pupkin" },
-                Location = "Location One",
-                Topic = "Tread topic"
+                Discipline = new Discipline { DisciplineId = 1, DisciplineName = "UnitTest_Java" },
+                Speaker = new Speaker { SpeakerId = 1, FirstName = "UnitTest_Oleg",
+                    LastName = "UnitTest_Pupkin" },
+                Location = "UnitTest_Location One",
+                Topic = "UnitTest_Tread topic"
 
             });
 
             talks.Add(new Talk()
             {
                 TalkId = 2,
-                Discipline = new Discipline { DisciplineId = 2, DisciplineName = "FT" },
-                Speaker = new Speaker { SpeakerId = 2, FirstName = "Petr", LastName = "Ivanov" },
-                Location = "Location Two",
-                Topic = "Async topic"
+                Discipline = new Discipline { DisciplineId = 2, DisciplineName = "UnitTest_FT" },
+                Speaker = new Speaker { SpeakerId = 2, FirstName = "UnitTest_Petr", LastName = "UnitTest_Ivanov" },
+                Location = "UnitTest_Location Two",
+                Topic = "UnitTest_Async topic"
             });
 
             return talks;

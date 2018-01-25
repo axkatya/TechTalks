@@ -12,7 +12,8 @@ CREATE TABLE [Talks] (
 	Speaker int,
 	Discipline int,
 	PresentationLink nvarchar(max),
-	Location nvarchar(100) NOT NULL,
+	[Location] nvarchar(100) NOT NULL,
+	[RowVersion] timestamp,
   CONSTRAINT [PK_Talks_TalkId] PRIMARY KEY CLUSTERED
   (
   [talkId] ASC
@@ -27,7 +28,8 @@ CREATE TABLE [Speakers] (
 	Email nvarchar(50),
 	Position nvarchar(50) NOT NULL,
 	Department nvarchar(50),
-	Location nvarchar(100) NOT NULL,
+	[Location] nvarchar(100) NOT NULL,
+	[RowVersion] timestamp,
   CONSTRAINT [PK_Speakers_SpeakerId] PRIMARY KEY CLUSTERED
   (
   [SpeakerId] ASC

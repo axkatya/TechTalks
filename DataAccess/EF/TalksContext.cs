@@ -88,6 +88,8 @@ namespace DataAccess.EF
                 entity.Property(e => e.Position)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.Property(s => s.RowVersion);
             });
 
             modelBuilder.Entity<Talk>(entity =>

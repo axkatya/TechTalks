@@ -14,10 +14,11 @@ namespace DataAccess.Repositories
     /// <seealso cref="System.IDisposable" />
     /// <seealso cref="DataAccess.Repositories.Interfaces.IRepositoryBase{T}" />
     public class BaseRepository<T> : IDisposable, IRepositoryBase<T> where T : class
-	{
+    {
         #region Protected Fields
 
-        protected TalksContext Db;
+        protected TalksContext Context;
+        private DbSet<T> entity;
 
         #endregion
 
@@ -29,7 +30,8 @@ namespace DataAccess.Repositories
         /// <param name="talksContext">The talks context.</param>
         public BaseRepository(TalksContext talksContext)
         {
-            Db = talksContext;
+            Context = talksContext;
+            entity = talksContext.Set<T>();
         }
 
         #endregion
@@ -40,34 +42,34 @@ namespace DataAccess.Repositories
         /// Creates the specified object.
         /// </summary>
         /// <param name="obj">The object.</param>
-        public void Create(T obj)
-		{
+        public T Create(T obj)
+        {
             if (obj == null)
             {
                 throw new ArgumentException("obj is null");
             }
 
-            Db.Set<T>().Add(obj);
-            Db.SaveChanges();
-		}
+            try
+            {
+                Context.Entry(obj).State = EntityState.Added;
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException)
+            {
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
-            Db.Dispose();
-            GC.SuppressFinalize(this);
+            }
+
+            return obj;
         }
 
         /// <summary>
         /// Gets all.
         /// </summary>
         /// <returns>Returns all rows.</returns>
-        public virtual  IEnumerable<T> GetAll()
-		{
-			return Db.Set<T>().ToList();
-		}
+        public virtual IEnumerable<T> GetAll()
+        {
+            return entity.ToList();
+        }
 
         /// <summary>
         /// Gets the by identifier.
@@ -75,9 +77,9 @@ namespace DataAccess.Repositories
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
         public T GetById(int id)
-		{
-			return Db.Set<T>().Find(id);
-		}
+        {
+            return entity.Find(id);
+        }
 
         /// <summary>
         /// Deletes the specified object.
@@ -85,15 +87,38 @@ namespace DataAccess.Repositories
         /// <param name="obj">The object.</param>
         /// <exception cref="ArgumentException">obj is null</exception>
         public void Delete(T obj)
-		{
+        {
             if (obj == null)
             {
                 throw new ArgumentException("obj is null");
             }
+            try
+            {
+                entity.Remove(obj);
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                CatchDbUpdateException(ex);
+            }
+        }
 
-            Db.Set<T>().Remove(obj);
-            Db.SaveChanges();
-		}
+        /// <summary>
+        /// Deletes the specified object by identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        public void DeleteById(int id)
+        {
+            try
+            {
+                T obj = entity.Find(id);
+                this.Delete(obj);
+            }
+            catch (DbUpdateException ex)
+            {
+                CatchDbUpdateException(ex);
+            }
+        }
 
         /// <summary>
         /// Updates the specified object.
@@ -101,16 +126,60 @@ namespace DataAccess.Repositories
         /// <param name="obj">The object.</param>
         /// <exception cref="ArgumentException">obj is null</exception>
         public void Update(T obj)
-		{
+        {
             if (obj == null)
             {
                 throw new ArgumentException("obj is null");
             }
 
-            Db.Entry(obj).State = EntityState.Modified;
-            Db.SaveChanges();
-		}
+            try
+            {
+                Context.Entry(obj).State = EntityState.Modified;
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException ex)
+            {
+                CatchDbUpdateException(ex);
+            }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Context.Dispose();
+            GC.SuppressFinalize(this);
+        }
 
         #endregion
+
+        private void CatchDbUpdateException(DbUpdateException ex)
+        {
+            foreach (var entry in ex.Entries)
+            {
+                if (entry.Entity is T)
+                {
+                    var databaseEntity = entity.AsNoTracking().FirstOrDefault(p => p == (T)entry.Entity);
+                    if (databaseEntity != null)
+                    {
+                        var databaseEntry = Context.Entry(databaseEntity);
+
+                        foreach (var property in entry.Metadata.GetProperties())
+                        {
+                            var proposedValue = entry.Property(property.Name).CurrentValue;
+                            var originalValue = entry.Property(property.Name).OriginalValue;
+                            var databaseValue = databaseEntry.Property(property.Name).CurrentValue;
+
+                            entry.Property(property.Name).OriginalValue = databaseEntry.Property(property.Name).CurrentValue;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new NotSupportedException("Don't know how to handle concurrency conflicts for " + entry.Metadata.Name);
+                }
+            }
+        }
     }
 }
