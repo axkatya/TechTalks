@@ -23,15 +23,6 @@ export class SpeakerService {
             .map((result => result.json() as Speaker));
     }
 
-    upsert(speaker: Speaker) {
-        if (speaker.speakerId > 0) {
-            this.updateSpeaker(speaker);
-        }
-        else {
-            this.createSpeaker(speaker);
-        }
-    }
-
     createSpeaker(speaker: Speaker) {
         return this.http.post(this.baseUrl + 'api/Speaker/CreateSpeaker', speaker, this.options)
             .map(result => result as any);

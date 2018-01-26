@@ -45,7 +45,15 @@ export class UpsertTalkComponent {
     }
 
     onSave() {
-        this._talkService.upsert(this.talk);
+        var res: any;
+
+        if (this.talk.talkId > 0) {
+            this._talkService.updateTalk(this.talk).subscribe(result => { res = result; });
+        }
+        else {
+            this._talkService.createTalk(this.talk).subscribe(result => { res = result; });
+        }
+
         this._router.navigate(['/talk-data']);
     }
 

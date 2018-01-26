@@ -32,7 +32,15 @@ export class UpsertSpeakerComponent {
     }
 
     onSave() {
-        this._speakerService.upsert(this.speaker);
+        var res: any;
+
+        if (this.speaker.speakerId > 0) {
+            this._speakerService.updateSpeaker(this.speaker).subscribe(result => { res = result; });
+        }
+        else {
+            this._speakerService.createSpeaker(this.speaker).subscribe(result => { res = result; });
+        }        
+
         this.notify.emit(this.speaker);
     }
 }

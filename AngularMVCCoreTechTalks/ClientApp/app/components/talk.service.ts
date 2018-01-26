@@ -24,22 +24,13 @@ export class TalkService {
             .map(result => result.json() as Talk[]);
     }
 
-    upsert(talk: Talk) {
-        if (talk.talkId > 0) {
-            this.updateTalk(talk);
-        }
-        else {
-            this.createTalk(talk);
-        }
-    }
-
     getTalkById(talkId: number) {
         return this.http.get(this.baseUrl + 'api/Talk/GetTalkById/' + talkId)
             .map(result => result.json() as Talk);
     }
 
     createTalk(talk: Talk) {
-        return this.http.post(this.baseUrl + 'api/Talk/CreateTalk/', talk, this.options)
+        return this.http.post(this.baseUrl + 'api/Talk/CreateTalk', talk, this.options)
             .map(result => result as any);
     }
 
