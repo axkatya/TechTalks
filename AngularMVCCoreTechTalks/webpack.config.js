@@ -29,7 +29,11 @@ module.exports = (env) => {
                 jQuery: 'jquery',
                 $: 'jquery',
                 jquery: 'jquery'
-            })]
+            }),
+            new webpack.ContextReplacementPlugin(
+                /angular(\\|\/)core(\\|\/)@angular/,
+                path.resolve(__dirname, '../ClientApp')
+            )]
     };
 
     // Configuration for client-side bundle suitable for running in browsers

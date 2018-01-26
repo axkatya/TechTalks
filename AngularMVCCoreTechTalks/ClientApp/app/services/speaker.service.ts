@@ -1,7 +1,7 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { Speaker } from './speaker';
+import { Speaker } from '../models/speaker';
 
 @Injectable()
 export class SpeakerService {

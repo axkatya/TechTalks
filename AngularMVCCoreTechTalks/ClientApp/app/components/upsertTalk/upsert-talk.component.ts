@@ -1,7 +1,8 @@
 ﻿import { Component } from '@angular/core';
-import { Talk } from '../talk';
-import { Speaker } from '../speaker';
-import { TalkService } from '../talk.service';
+import { Talk } from '../../models/talk';
+import { Speaker } from '../../models/speaker';
+import { TalkService } from '../../services/talk.service';
+import { TalkFilterViewModelService } from '../../services/talkFilterViewModel.service';
 import { ActivatedRoute, Router} from '@angular/router';
 import { UpsertSpeakerComponent } from '../upsertSpeaker/upsert-speaker.component';
 
@@ -28,7 +29,8 @@ export class UpsertTalkComponent {
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
-        private _talkService: TalkService
+        private _talkService: TalkService,
+        private _talkFilterViewModelService: TalkFilterViewModelService
     ) {
         this.talk = new Talk();
     }
@@ -41,6 +43,11 @@ export class UpsertTalkComponent {
                     this.talk = result;
                 });
             }
+
+            this._talkFilterViewModelService.getPossibleLists().subscribe(result => {
+                this.disciplineList = result.disciplineList;
+                this.locationList = result.locationList;
+            });
         });
     }
 
@@ -64,6 +71,10 @@ export class UpsertTalkComponent {
     onNotifyFromUpsertSpeaker(speaker: Speaker) {
         this.isNewSpeaker = false;
         this.talk.speakerName = speaker.firstName + ' ' + speaker.lastName;
+    }
+
+    onTalkDateSelect(date: Date) {
+        this.talk.talkDate = date;
     }
 }
 

@@ -10,7 +10,6 @@ import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime'
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
-import { HomeComponent } from './components/home/home.component';
 import { TalkComponent } from './components/talkdata/talkdata.component';
 import { SpeakerComponent } from './components/speaker/speaker.component';
 import { UpsertTalkComponent } from './components/upsertTalk/upsert-talk.component';
@@ -18,15 +17,14 @@ import { UpsertSpeakerComponent } from './components/upsertSpeaker/upsert-speake
 
 import { SpeakerButtonRenderComponent } from './components/button-render/speaker.button-render.component';
 
-import { TalkFilterViewModelService } from './components/talkFilterViewModel.service';
-import { TalkService } from './components/talk.service';
-import { SpeakerService } from './components/speaker.service';
+import { TalkFilterViewModelService } from './services/talkFilterViewModel.service';
+import { TalkService } from './services/talk.service';
+import { SpeakerService } from './services/speaker.service';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
-        HomeComponent,
         SpeakerButtonRenderComponent,
         TalkComponent,
         SpeakerComponent,
@@ -38,15 +36,14 @@ import { SpeakerService } from './components/speaker.service';
         HttpModule,
         FormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
+            { path: '', redirectTo: 'talk-data', pathMatch: 'full' },
             { path: 'talk-data', component: TalkComponent },
             { path: 'speaker/:id', component: SpeakerComponent },
             { path: 'upsert-talk', component: UpsertTalkComponent },
             { path: 'upsert-talk/:id', component: UpsertTalkComponent },
             { path: 'upsert-speaker', component: UpsertSpeakerComponent },
             { path: 'upsert-speaker/:id', component: UpsertSpeakerComponent },
-            { path: '**', redirectTo: 'home' }
+            { path: '**', redirectTo: 'talk-data' }
         ]),
         Ng2SmartTableModule,
         NKDatetimeModule

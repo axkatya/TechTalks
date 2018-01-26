@@ -1,7 +1,7 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { TalkFilterViewModel } from './talkFilterViewModel';
+import { TalkFilterViewModel } from '../models/talkFilterViewModel';
 
 @Injectable()
 export class TalkFilterViewModelService {
@@ -14,6 +14,11 @@ export class TalkFilterViewModelService {
 
     getTalkFilterViewModel() {
         return this.http.get(this.baseUrl + 'api/Talk/GetFilters')
+            .map((result => result.json() as TalkFilterViewModel));
+    }
+
+    getPossibleLists() {
+        return this.http.get(this.baseUrl + 'api/Talk/GetPossibleLists')
             .map((result => result.json() as TalkFilterViewModel));
     }
 }

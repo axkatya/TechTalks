@@ -47,6 +47,16 @@ namespace AngularMVCCoreTechTalks.Controllers
             return filterViewModel;
         }
 
+        [HttpGet("[action]")]
+        public TalkFilterViewModel GetPossibleLists()
+        {
+            IList<Talk> talks = _talkService.GetAll().ToList();
+
+            TalkFilterViewModel filterViewModel = Mapper.Map<TalkFilterViewModel>(talks);
+
+            return filterViewModel;
+        }
+
         [HttpGet("[action]/{id}")]
         public Talk GetTalkById(int id)
         {

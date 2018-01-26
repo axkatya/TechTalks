@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalDataSource } from 'ng2-smart-table';
-import { Talk } from '../talk';
-import { TalkFilterViewModel } from '../talkFilterViewModel';
-import { TalkFilterViewModelService } from '../talkFilterViewModel.service';
-import { TalkService } from '../talk.service';
+import { Talk } from '../../models/talk';
+import { TalkFilterViewModel } from '../../models/talkFilterViewModel';
+import { TalkFilterViewModelService } from '../../services/talkFilterViewModel.service';
+import { TalkService } from '../../services/talk.service';
 import { Router } from '@angular/router';
 import { SpeakerButtonRenderComponent } from '../button-render/speaker.button-render.component';
 

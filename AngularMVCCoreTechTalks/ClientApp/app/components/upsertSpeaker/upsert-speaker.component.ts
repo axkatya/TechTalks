@@ -1,6 +1,6 @@
 ﻿import { Component, Output, EventEmitter } from '@angular/core';
-import { Speaker } from '../speaker';
-import { SpeakerService } from '../speaker.service';
+import { Speaker } from '../../models/speaker';
+import { SpeakerService } from '../../services/speaker.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

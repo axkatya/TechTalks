@@ -19,7 +19,8 @@
                       [(ngModel)]="this.talk.talkDate"
                       [hasClearButton]="true"
                       [timepicker]="{ showMeridian: false, minuteStep: 1 }"
-                      [datepicker]="dateSettings"></datetime>
+                      [datepicker]="dateSettings"
+                      (ngModelChange)="onTalkDateSelect($event)"></datetime>
         </td>
     </tr>
     <tr>

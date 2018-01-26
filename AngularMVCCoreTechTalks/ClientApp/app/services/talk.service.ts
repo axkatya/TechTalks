@@ -1,8 +1,8 @@
 ﻿import { Injectable, Inject } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { Talk } from './talk';
-import { TalkFilterViewModel } from './talkFilterViewModel';
+import { Talk } from '../models/talk';
+import { TalkFilterViewModel } from '../models/talkFilterViewModel';
 
 @Injectable()
 export class TalkService {
