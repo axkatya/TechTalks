@@ -36,9 +36,9 @@ namespace DataAccess.Services
         /// Creates the specified item.
         /// </summary>
         /// <param name="item">The item.</param>
-        public void Create(T item)
+        public T Create(T item)
         {
-            _repositoryBase.Create(item);
+            return _repositoryBase.Create(item);
         }
 
         /// <summary>

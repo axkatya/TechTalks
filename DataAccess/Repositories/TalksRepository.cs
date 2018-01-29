@@ -47,6 +47,19 @@ namespace DataAccess.Repositories
             return Context.Talks.Include(discipline => discipline.Discipline).Include(speaker => speaker.Speaker).ToList();
         }
 
+        /// <summary>
+        /// Gets the talk by talk identifier.
+        /// </summary>
+        /// <param name="id">The talk identifier.</param>
+        /// <returns></returns>
+        public override Talk GetById(int id)
+        {
+            return Context.Talks
+                          .Include(discipline => discipline.Discipline)
+                          .Include(speaker => speaker.Speaker)
+                          .SingleOrDefault(x => x.TalkId == id);
+        }
+
         #endregion
 
         #region Public Methods

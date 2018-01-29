@@ -41,7 +41,7 @@ namespace AngularMVCCoreTechTalks.Controllers
 
             TalkFilterViewModel filterViewModel = Mapper.Map<TalkFilterViewModel>(talks);
 
-            filterViewModel.DisciplineList.Insert(0, string.Empty);
+            filterViewModel.DisciplineList.Insert(0, string.Empty );
             filterViewModel.LocationList.Insert(0, string.Empty);
 
             return filterViewModel;
@@ -58,10 +58,11 @@ namespace AngularMVCCoreTechTalks.Controllers
         }
 
         [HttpGet("[action]/{id}")]
-        public Talk GetTalkById(int id)
+        public TalkViewModel GetTalkById(int id)
         {
             Talk talk = _talkService.GetById(id);
-            return talk;
+            TalkViewModel talksViewModel = Mapper.Map<TalkViewModel>(talk);
+            return talksViewModel;
         }
 
         [HttpPost("[action]")]
@@ -74,9 +75,9 @@ namespace AngularMVCCoreTechTalks.Controllers
         }
 
         [HttpPost("[action]")]
-        public void CreateTalk([FromBody]Talk talk)
+        public Talk CreateTalk([FromBody]Talk talk)
         {
-            _talkService.Create(talk);
+            return _talkService.Create(talk);
         }
 
         [HttpPut("[action]/{id}")]

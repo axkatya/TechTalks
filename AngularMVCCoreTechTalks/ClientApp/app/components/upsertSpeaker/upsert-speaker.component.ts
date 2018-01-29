@@ -1,52 +1,46 @@
-﻿import { Component, Output, EventEmitter } from '@angular/core';
+﻿import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Speaker } from '../../models/speaker';
 import { SpeakerService } from '../../services/speaker.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'upsert-speaker',
     templateUrl: './upsert-speaker.component.html'
 })
 
-export class UpsertSpeakerComponent {
+export class UpsertSpeakerComponent implements OnInit {
+    @Input() updatedSpeaker: Speaker;
     @Output() notify: EventEmitter<Speaker> = new EventEmitter<Speaker>();
 
     private speaker: Speaker;
 
-    constructor(
-        private _route: ActivatedRoute,
-        private _speakerService: SpeakerService
-    ) {
-        this.speaker = new Speaker();
+    constructor(private _speakerService: SpeakerService) {
+
     }
 
-    ngOnInit() {
-        this._route.params.subscribe(params => {
-            var id: number = params['id'];
-            if (id > 0) {
-                this._speakerService.getSpeakerById(id).subscribe(result => {
-                    this.speaker = result;
-                });
-            }
-        });
+    ngOnInit(): void {
+        if (this.updatedSpeaker === undefined) {
+            this.speaker = new Speaker();
+        }
+        else {
+            this.speaker = this.updatedSpeaker;
+        }
     }
 
     onSave() {
         var res: any;
 
         if (this.speaker.speakerId > 0) {
-            this._speakerService.updateSpeaker(this.speaker).subscribe(result => { res = result; });
+            this._speakerService.updateSpeaker(this.speaker).subscribe(result => {
+                res = result;
+                this.notify.emit(this.speaker);
+            });
         }
         else {
-            this._speakerService.createSpeaker(this.speaker).subscribe(result => { res = result; });
-        }        
-
-        this.notify.emit(this.speaker);
+            this._speakerService.createSpeaker(this.speaker).subscribe(result => {
+                res = result.json() as Speaker;
+                this.speaker.speakerId = res.speakerId;
+                this.notify.emit(this.speaker);
+            });
+        }
     }
 }
-
-
-
-
-
-

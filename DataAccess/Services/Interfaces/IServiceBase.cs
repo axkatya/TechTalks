@@ -6,7 +6,7 @@ namespace DataAccess.Services.Interfaces
 	{
 		IEnumerable<T> GetAll();
 		T GetById(int id);
-		void Create(T item);
+		T Create(T item);
 		void Update(T item);
 
 		void Delete(T item);

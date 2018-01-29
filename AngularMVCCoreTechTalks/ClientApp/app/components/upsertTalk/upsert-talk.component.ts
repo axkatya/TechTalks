@@ -1,9 +1,10 @@
 ﻿import { Component } from '@angular/core';
 import { Talk } from '../../models/talk';
 import { Speaker } from '../../models/speaker';
+import { Discipline } from '../../models/discipline';
 import { TalkService } from '../../services/talk.service';
 import { TalkFilterViewModelService } from '../../services/talkFilterViewModel.service';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UpsertSpeakerComponent } from '../upsertSpeaker/upsert-speaker.component';
 
 @Component({
@@ -25,7 +26,6 @@ export class UpsertTalkComponent {
         assumeNearbyYear: true,
         format: 'dd-MM-yyyy'
     }
-
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
@@ -34,6 +34,9 @@ export class UpsertTalkComponent {
     ) {
         this.talk = new Talk();
     }
+
+    private locationItems: Array<any>;
+    private selectedLocation: any;
 
     ngOnInit() {
         this._route.params.subscribe(params => {
@@ -47,6 +50,16 @@ export class UpsertTalkComponent {
             this._talkFilterViewModelService.getPossibleLists().subscribe(result => {
                 this.disciplineList = result.disciplineList;
                 this.locationList = result.locationList;
+
+                this.locationItems = new Array();
+                for (let i = 0; i < this.locationList.length; i++) {
+                    this.locationItems[i] = {
+                        id: this.locationList[i],
+                        text: this.locationList[i]
+                    };
+                }
+
+                this.selectedLocation = [{ id: this.talk.location, text: this.talk.location }];
             });
         });
     }
@@ -71,10 +84,19 @@ export class UpsertTalkComponent {
     onNotifyFromUpsertSpeaker(speaker: Speaker) {
         this.isNewSpeaker = false;
         this.talk.speakerName = speaker.firstName + ' ' + speaker.lastName;
+        this.talk.speakerId = speaker.speakerId;
     }
 
     onTalkDateSelect(date: Date) {
         this.talk.talkDate = date;
+    }
+
+    onSelectLocation(location: any) {
+        this.talk.location = location.text;
+    }
+
+    typed(location: any) {
+        this.talk.location = location.text;
     }
 }
 

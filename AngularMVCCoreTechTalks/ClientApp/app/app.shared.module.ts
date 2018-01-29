@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import * as $ from 'jquery';
 import { NKDatetimeModule } from 'ng2-datetime/ng2-datetime'
+import { SelectModule } from 'ng2-select';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -46,7 +47,8 @@ import { SpeakerService } from './services/speaker.service';
             { path: '**', redirectTo: 'talk-data' }
         ]),
         Ng2SmartTableModule,
-        NKDatetimeModule
+        NKDatetimeModule,
+        SelectModule
     ],
     providers: [
         TalkFilterViewModelService,

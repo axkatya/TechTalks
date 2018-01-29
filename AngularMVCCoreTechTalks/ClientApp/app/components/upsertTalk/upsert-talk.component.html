@@ -36,8 +36,11 @@
             <label>Discipline</label>
         </td>
         <td>
-            <select [disabled]="this.isNewSpeaker" class="select select--width-full" [(ngModel)]="this.talk.disciplineName" (change)="onSelectDisciplineFilter($event.target.value)">
-                <option *ngFor="let disciplineName of this.disciplineList" [value]="disciplineName">
+            <select [disabled]="this.isNewSpeaker"
+                    class="select select--width-full"
+                    [(ngModel)]="this.talk.disciplineName"
+                    (change)="onSelectDisciplineFilter($event.target.value)">
+                <option *ngFor="let disciplineName of this.disciplineList" value="{{disciplineName}}">
                     {{ disciplineName }}
                 </option>
             </select>
@@ -48,11 +51,15 @@
             <label>Location</label>
         </td>
         <td>
-            <select [disabled]="this.isNewSpeaker" class="select select--width-full" [(ngModel)]="this.talk.location" (change)="onSelectLocationFilter($event.target.value)">
-                <option *ngFor="let locationName of this.locationList" [value]="locationName">
-                    {{ locationName }}
-                </option>
-            </select>
+
+            <ng-select [allowClear]="true"
+                       [items]="this.locationItems"
+                       [active]="this.selectedLocation"
+                       [disabled]="this.isNewSpeaker"
+                       (selected)="onSelectLocation($event)"
+                       (typed)="typedLocation($event)"
+                       placeholder="No location selected">
+            </ng-select>
         </td>
     </tr>
     <tr>
@@ -60,11 +67,8 @@
             <label>Speaker</label>
         </td>
         <td>
-            <select [disabled]="this.isNewSpeaker" class="select select--width-full" [(ngModel)]="this.talk.speakerName">
-                <option *ngFor="let speakerName of this.speakerList">
-                    {{ speakerName }}
-                </option>
-            </select>
+            <input [disabled]="true" class="input" type="text" [(ngModel)]="this.talk.speakerName" />
+
         </td>
         <td>
             <div *ngIf="!this.isNewSpeaker">

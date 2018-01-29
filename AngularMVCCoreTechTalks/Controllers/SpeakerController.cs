@@ -37,9 +37,9 @@ namespace AngularMVCCoreTechTalks.Controllers
         }
 
         [HttpPost("[action]")]
-        public void CreateSpeaker([FromBody]Speaker speaker)
+        public Speaker CreateSpeaker([FromBody]Speaker speaker)
         {
-            _speakerService.Create(speaker);
+           return _speakerService.Create(speaker);
         }
 
         [HttpPut("[action]/{id}")]

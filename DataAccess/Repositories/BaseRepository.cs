@@ -76,7 +76,7 @@ namespace DataAccess.Repositories
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>
-        public T GetById(int id)
+        public virtual T GetById(int id)
         {
             return entity.Find(id);
         }

@@ -64,6 +64,7 @@
   "dependencies": {
     "hummus": "^1.0.83",
     "ng2-datetime": "^1.4.0",
+    "ng2-select": "^2.0.0",
     "ng2-smart-table": "^1.2.2"
   }
 }
