@@ -2,6 +2,7 @@ using AngularMVCCoreTechTalks;
 using AngularMVCCoreTechTalks.Automapper.Profiles;
 using AngularMVCCoreTechTalks.ViewModels;
 using AutoMapper;
+using BusinessLogic.Filters;
 using DataAccess.EF;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Hosting;
@@ -71,11 +72,10 @@ namespace WebApi.IntegrationTests
 
             Mapper.Initialize(x =>
             {
-                x.AddProfile<TalkFilterViewModelToTalkFilterProfile>();
                 x.AddProfile<TalkToTalkViewModelProfile>();
             });
 
-            TalkFilterViewModel talkFilterViewModel = new TalkFilterViewModel
+            TalkFilter talkFilter = new TalkFilter
             {
                 DisciplineName = string.Empty,
                 Location = string.Empty,
@@ -85,7 +85,7 @@ namespace WebApi.IntegrationTests
                 DateTo = null
             };
 
-            var stringContent = new StringContent(JsonConvert.SerializeObject(talkFilterViewModel), Encoding.UTF8, "application/json");
+            var stringContent = new StringContent(JsonConvert.SerializeObject(talkFilter), Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("/api/talk/GetFilteredTalks", stringContent);
             IEnumerable<TalkViewModel> talks = await response.Content.ReadAsJsonAsync<IEnumerable<TalkViewModel>>();
 

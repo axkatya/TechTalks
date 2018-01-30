@@ -68,7 +68,7 @@ namespace WebApi.UnitTests.Controllers
 
             var controller = new TalkController(mockTalkService.Object);
 
-            TalkFilterViewModel talkFilterViewModel = new TalkFilterViewModel {
+            TalkFilter talkFilterViewModel = new TalkFilter {
                 DisciplineName = filter.DisciplineName,
                 Location = filter.DisciplineName,
                 SpeakerName = filter.SpeakerName,
@@ -182,22 +182,23 @@ namespace WebApi.UnitTests.Controllers
 
         private IEnumerable<Talk> GetAllTalks()
         {
-            IList<Talk> talks = new List<Talk>();
-
-            talks.Add(new Talk()
+            IList<Talk> talks = new List<Talk>
             {
-                TalkId = 1,
-                Discipline = new Discipline { DisciplineId = 1, DisciplineName = "Java" },
-                Location = "Location One",
+                new Talk()
+                {
+                    TalkId = 1,
+                    Discipline = new Discipline { DisciplineId = 1, DisciplineName = "Java" },
+                    Location = "Location One",
 
-            });
+                },
 
-            talks.Add(new Talk()
-            {
-                TalkId = 2,
-                Discipline = new Discipline { DisciplineId = 2, DisciplineName = "FT" },
-                Location = "Location One"
-            });
+                new Talk()
+                {
+                    TalkId = 2,
+                    Discipline = new Discipline { DisciplineId = 2, DisciplineName = "FT" },
+                    Location = "Location One"
+                }
+            };
 
             return talks;
         }

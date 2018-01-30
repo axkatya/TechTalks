@@ -4,6 +4,7 @@ import { Speaker } from '../../models/speaker';
 import { Discipline } from '../../models/discipline';
 import { TalkService } from '../../services/talk.service';
 import { TalkFilterViewModelService } from '../../services/talkFilterViewModel.service';
+import { DisciplineService } from '../../services/discipline.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpsertSpeakerComponent } from '../upsertSpeaker/upsert-speaker.component';
 
@@ -30,7 +31,8 @@ export class UpsertTalkComponent {
         private _route: ActivatedRoute,
         private _router: Router,
         private _talkService: TalkService,
-        private _talkFilterViewModelService: TalkFilterViewModelService
+        private _talkFilterViewModelService: TalkFilterViewModelService,
+        private _disciplineService: DisciplineService
     ) {
         this.talk = new Talk();
     }
@@ -38,12 +40,16 @@ export class UpsertTalkComponent {
     private locationItems: Array<any>;
     private selectedLocation: any;
 
+    private disciplineItems: Array<any>;
+    private selectedDiscipline: any;
+
     ngOnInit() {
         this._route.params.subscribe(params => {
             var id: number = params['id'];
             if (id > 0) {
                 this._talkService.getTalkById(id).subscribe(result => {
                     this.talk = result;
+                    this.talk.talkDate = new Date(result.talkDate);
                 });
             }
 
@@ -60,12 +66,31 @@ export class UpsertTalkComponent {
                 }
 
                 this.selectedLocation = [{ id: this.talk.location, text: this.talk.location }];
+
+                this.disciplineItems = new Array();
+                for (let i = 0; i < this.disciplineList.length; i++) {
+                    this.disciplineItems[i] = {
+                        id: this.disciplineList[i],
+                        text: this.disciplineList[i]
+                    };
+                }
+
+                this.selectedDiscipline = [{ id: this.talk.disciplineId, text: this.talk.disciplineName }];
             });
         });
     }
 
     onSave() {
         var res: any;
+        var createdDiscipline: Discipline;
+
+        if (this.disciplineItems.indexOf(this.talk.disciplineName) < 0) {
+            var discipline: Discipline = { disciplineId: 0, disciplineName: this.talk.disciplineName };
+            this._disciplineService.createDiscipline(discipline).subscribe(result => {
+                createdDiscipline = result
+                this.talk.disciplineId = createdDiscipline.disciplineId;
+            });            
+        }
 
         if (this.talk.talkId > 0) {
             this._talkService.updateTalk(this.talk).subscribe(result => { res = result; });
@@ -92,11 +117,21 @@ export class UpsertTalkComponent {
     }
 
     onSelectLocation(location: any) {
-        this.talk.location = location.text;
+        this.talk.location = location;
     }
 
-    typed(location: any) {
-        this.talk.location = location.text;
+    onTypedLocation(location: any) {
+        this.talk.location = location;
+        this.selectedLocation = [{ id: this.talk.location, text: this.talk.location }];
+    }
+
+    onSelectDiscipline(discipline: any) {
+        this.talk.disciplineName = discipline;
+    }
+
+    onTypedDiscipline(discipline: any) {
+        this.talk.disciplineName = discipline;
+        this.selectedDiscipline = [{ id: this.talk.disciplineName, text: this.talk.disciplineName }];
     }
 }
 

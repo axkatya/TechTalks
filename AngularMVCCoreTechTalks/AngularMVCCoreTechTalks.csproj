@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <Compile Remove="Automapper\AutoMapperConfig.cs" />
+    <Compile Remove="ViewModels\SelectedTalkFilterViewModel.cs" />
   </ItemGroup>
 
   <ItemGroup>

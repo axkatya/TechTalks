@@ -39,15 +39,25 @@ namespace AngularMVCCoreTechTalks.Controllers
         [HttpPost("[action]")]
         public Speaker CreateSpeaker([FromBody]Speaker speaker)
         {
-           return _speakerService.Create(speaker);
+            EncodeSpeakerProperties(speaker);
+            return _speakerService.Create(speaker);
         }
 
         [HttpPut("[action]/{id}")]
         public void UpdateSpeaker(int id, [FromBody]Speaker speaker)
         {
+            EncodeSpeakerProperties(speaker);
             _speakerService.Update(speaker);
         }
 
         #endregion
+
+        private static void EncodeSpeakerProperties(Speaker speaker)
+        {
+            speaker.FirstName = System.Net.WebUtility.HtmlEncode(speaker.FirstName);
+            speaker.LastName = System.Net.WebUtility.HtmlEncode(speaker.LastName);
+            speaker.Position = System.Net.WebUtility.HtmlEncode(speaker.Position);
+            speaker.Location = System.Net.WebUtility.HtmlEncode(speaker.Location);
+        }
     }
 }

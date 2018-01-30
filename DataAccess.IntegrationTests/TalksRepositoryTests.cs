@@ -142,20 +142,28 @@ namespace DataAccess.IntegrationTests
                 DisciplineName = "IntTest_.NET"
             };
 
-            var speaker = new Speaker {
+            var speaker = new Speaker
+            {
                 FirstName = "IntTest_Ivan",
                 LastName = "IntTest_Pupkin",
                 Position = "IntTest_SE",
                 Location = "IntTest_Minsk"
             };
 
-            Talk talk = new Talk
+            var talk = new Talk
             {
-                Location = "IntTest_L3, Room 54",
-                Topic = "IntTest_SignalR",
-                Discipline = discipline,
-                Speaker = speaker
+                Topic = "IntTest_test",
+                Location = "IntTest_Room 67",
+                AdditionalDetail = ""
             };
+
+            DisciplinesRepository disciplinesRepository = new DisciplinesRepository(_talksContext);
+            discipline = disciplinesRepository.Create(discipline);
+            talk.DisciplineId = discipline.DisciplineId;
+
+            SpeakersRepository speakersRepository = new SpeakersRepository(_talksContext);
+            speaker = speakersRepository.Create(speaker);
+            talk.SpeakerId = speaker.SpeakerId;
 
             //Act
             TalksRepository talksRepository = new TalksRepository(_talksContext);
@@ -169,7 +177,11 @@ namespace DataAccess.IntegrationTests
         public void UpdateTalk_WhenTalkUpdated_ShouldReturnUpdatedTalk()
         {
             // Arrange
-            var discipline = new Discipline { DisciplineName = "IntTest_.NET" };
+            var discipline = new Discipline
+            {
+                DisciplineName = "IntTest_.NET"
+            };
+
             var speaker = new Speaker
             {
                 FirstName = "IntTest_Ivan",
@@ -178,22 +190,31 @@ namespace DataAccess.IntegrationTests
                 Location = "IntTest_Minsk"
             };
 
-            Talk talk = new Talk
+            var talk = new Talk
             {
-                TalkId = 1,
-                Location = "IntTest_L3, Room 54",
-                Topic = "IntTest_SignalR",
-                Discipline = discipline,
-                Speaker = speaker
+                Topic = "IntTest_test",
+                Location = "IntTest_Room 67",
+                AdditionalDetail = ""
             };
 
-            //Act
+            DisciplinesRepository disciplinesRepository = new DisciplinesRepository(_talksContext);
+            discipline = disciplinesRepository.Create(discipline);
+            talk.DisciplineId = discipline.DisciplineId;
+
+            SpeakersRepository speakersRepository = new SpeakersRepository(_talksContext);
+            speaker = speakersRepository.Create(speaker);
+            talk.SpeakerId = speaker.SpeakerId;
+
             TalksRepository talksRepository = new TalksRepository(_talksContext);
+            talk = talksRepository.Create(talk);
+
+            //Act
+            talk.Topic = "IntTest_test2";
             talksRepository.Update(talk);
 
             //Assert
             var actualResult = talksRepository.GetById(talk.TalkId);
-            Assert.Equal(talk.Topic, actualResult.Topic);
+            Assert.Equal("IntTest_test2", actualResult.Topic);
         }
 
         [Fact]
@@ -202,38 +223,40 @@ namespace DataAccess.IntegrationTests
             // Arrange
             var discipline = new Discipline
             {
-                DisciplineId = 1,
                 DisciplineName = "IntTest_.NET"
             };
 
             var speaker = new Speaker
             {
-                SpeakerId = 1,
                 FirstName = "IntTest_Ivan",
                 LastName = "IntTest_Pupkin",
                 Position = "IntTest_SE",
                 Location = "IntTest_Minsk"
             };
 
-            Talk talk = new Talk
+            var talk = new Talk
             {
                 Topic = "IntTest_test",
                 Location = "IntTest_Room 67",
-                AdditionalDetail = "",
-                Speaker = speaker,
-                SpeakerId = speaker.SpeakerId,
-                Discipline = discipline,
-                DisciplineId = discipline.DisciplineId
+                AdditionalDetail = ""
             };
 
+            DisciplinesRepository disciplinesRepository = new DisciplinesRepository(_talksContext);
+            discipline = disciplinesRepository.Create(discipline);
+            talk.DisciplineId = discipline.DisciplineId;
+
+            SpeakersRepository speakersRepository = new SpeakersRepository(_talksContext);
+            speaker = speakersRepository.Create(speaker);
+            talk.SpeakerId = speaker.SpeakerId;
+
             TalksRepository talksRepository = new TalksRepository(_talksContext);
-            Talk newTalk = talksRepository.Create(talk);
+            talk = talksRepository.Create(talk);
 
             //Act
-            talksRepository.DeleteById(newTalk.TalkId);
+            talksRepository.DeleteById(talk.TalkId);
 
             //Assert
-            var actualResult = talksRepository.GetById(newTalk.TalkId);
+            var actualResult = talksRepository.GetById(talk.TalkId);
             Assert.Null(actualResult);
         }
 

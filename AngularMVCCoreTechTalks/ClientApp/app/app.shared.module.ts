@@ -21,6 +21,8 @@ import { SpeakerButtonRenderComponent } from './components/button-render/speaker
 import { TalkFilterViewModelService } from './services/talkFilterViewModel.service';
 import { TalkService } from './services/talk.service';
 import { SpeakerService } from './services/speaker.service';
+import { DisciplineService } from './services/discipline.service';
+
 
 @NgModule({
     declarations: [
@@ -53,7 +55,8 @@ import { SpeakerService } from './services/speaker.service';
     providers: [
         TalkFilterViewModelService,
         TalkService,
-        SpeakerService
+        SpeakerService,
+        DisciplineService
     ],
     entryComponents: [
         SpeakerButtonRenderComponent

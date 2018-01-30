@@ -20,7 +20,7 @@ namespace AngularMVCCoreTechTalks.Automapper.Profiles
             CreateMap<IEnumerable<Talk>, TalkFilterViewModel>()
                 .ForMember(
                 dest => dest.DisciplineList,
-                opt => opt.MapFrom(src => src.Select(p => p.Discipline.DisciplineName).Distinct().OrderBy(d => d))
+                opt => opt.MapFrom(src => src.Select(p => p.Discipline.DisciplineName))
                 )
                 .ForMember(
                 dest => dest.LocationList,

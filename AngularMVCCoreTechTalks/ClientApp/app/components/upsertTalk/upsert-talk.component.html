@@ -15,7 +15,7 @@
             <label>Talk Date</label>
         </td>
         <td>
-            <datetime [disabled]="this.isNewSpeaker"
+            <datetime 
                       [(ngModel)]="this.talk.talkDate"
                       [hasClearButton]="true"
                       [timepicker]="{ showMeridian: false, minuteStep: 1 }"
@@ -36,14 +36,23 @@
             <label>Discipline</label>
         </td>
         <td>
-            <select [disabled]="this.isNewSpeaker"
-                    class="select select--width-full"
-                    [(ngModel)]="this.talk.disciplineName"
-                    (change)="onSelectDisciplineFilter($event.target.value)">
+            <!--<select [disabled]="this.isNewSpeaker"
+            class="select select--width-full"
+            [(ngModel)]="this.talk.disciplineName"
+            (change)="onSelectDisciplineFilter($event.target.value)">
                 <option *ngFor="let disciplineName of this.disciplineList" value="{{disciplineName}}">
-                    {{ disciplineName }}
+                    {{disciplineName}}
                 </option>
-            </select>
+    </select>-->
+
+            <ng-select [allowClear]="true"
+                       [items]="this.disciplineItems"
+                       [active]="this.selectedDiscipline"
+                       [disabled]="this.isNewSpeaker"
+                       (selected)="onSelectDiscipline($event)"
+                       (typed)="onTypedDiscipline($event)"
+                       placeholder="No discipline selected">
+            </ng-select>
         </td>
     </tr>
     <tr>
@@ -57,7 +66,7 @@
                        [active]="this.selectedLocation"
                        [disabled]="this.isNewSpeaker"
                        (selected)="onSelectLocation($event)"
-                       (typed)="typedLocation($event)"
+                       (typed)="onTypedLocation($event)"
                        placeholder="No location selected">
             </ng-select>
         </td>

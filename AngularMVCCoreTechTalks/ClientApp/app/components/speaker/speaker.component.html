@@ -54,7 +54,7 @@
         <tr>
             <td>
 
-                <a (click)="onUpdateSpeaker()" >Update Speaker</a>
+                <a (click)="onUpdateSpeaker()">Update Speaker</a>
 
             </td>
         </tr>
@@ -62,5 +62,5 @@
 </div>
 
 <div *ngIf="this.isUpdateSpeaker">
-    <upsert-speaker (notify)="onNotifyFromUpsertSpeaker($event)" [updatedSpeaker] ="this.speaker"></upsert-speaker>
+    <upsert-speaker (notify)="onNotifyFromUpsertSpeaker($event)" [updatedSpeaker]="this.speaker"></upsert-speaker>
 </div>
