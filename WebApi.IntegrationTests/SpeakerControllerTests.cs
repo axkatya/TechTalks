@@ -2,12 +2,14 @@
 using AutoMapper;
 using DataAccess.EF;
 using DataAccess.Entities;
+using IntegrationTestsCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Newtonsoft.Json;
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -16,7 +18,7 @@ using Xunit;
 
 namespace WebApi.IntegrationTests
 {
-    public class SpeakerControllerTests
+    public class SpeakerControllerTests : IntegrationTestHelper, IDisposable
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
@@ -32,8 +34,11 @@ namespace WebApi.IntegrationTests
             var _webHostBuilder = new WebHostBuilder()
                 .UseContentRoot(setDir)
                 .UseStartup<Startup>();
+
+            CreateTestDatabase();
+
             _webHostBuilder.ConfigureServices(s => s.AddDbContext<TalksContext>(options =>
-    options.UseSqlServer("Server=EPBYMOGW0013;Database=TalksDB;Integrated Security=True;MultipleActiveResultSets=True")));
+    options.UseSqlServer(Constants.TestConnectionString)));
 
             _server = new TestServer(_webHostBuilder);
             _client = _server.CreateClient().AcceptJson();
@@ -94,6 +99,12 @@ namespace WebApi.IntegrationTests
 
             // Assert
             Assert.True(response.IsSuccessStatusCode);
+        }
+
+        public void Dispose()
+        {
+            DetachTestDatabase();
+            DeleteTestDatabase();
         }
     }
 }

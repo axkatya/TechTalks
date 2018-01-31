@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TestsFixture.cs" />
+    <Compile Remove="TestStartup.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="xunit" Version="2.2.0" />
@@ -15,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AngularMVCCoreTechTalks\AngularMVCCoreTechTalks.csproj" />
+    <ProjectReference Include="..\IntegrationTestsCore\IntegrationTestsCore.csproj" />
   </ItemGroup>
 
 </Project>
