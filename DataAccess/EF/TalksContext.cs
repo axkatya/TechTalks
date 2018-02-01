@@ -109,7 +109,7 @@ namespace DataAccess.EF
                     .HasMaxLength(140);
 
                 entity.HasOne(d => d.Discipline)
-                    .WithMany(p => p.Talks)
+                    .WithMany()
                     .HasForeignKey(d => d.DisciplineId)
                     .HasConstraintName("FK_Disciplines_Discipline");
 

@@ -2,7 +2,7 @@
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { Talk } from '../models/talk';
-import { TalkFilterViewModel } from '../models/talkFilterViewModel';
+import { SelectedTalkFilterViewModel } from '../models/selectedTalkFilterViewModel';
 
 @Injectable()
 export class TalkService {
@@ -19,8 +19,8 @@ export class TalkService {
         this.options = new RequestOptions({ headers: this.headers });
     }
 
-    getFilteredTalks(talkFilterViewModel: TalkFilterViewModel) {
-        return this.http.post(this.baseUrl + 'api/Talk/GetFilteredTalks', talkFilterViewModel)
+    getFilteredTalks(selectedTalkFilterViewModel: SelectedTalkFilterViewModel) {
+        return this.http.post(this.baseUrl + 'api/Talk/GetFilteredTalks', selectedTalkFilterViewModel)
             .map(result => result.json() as Talk[]);
     }
 

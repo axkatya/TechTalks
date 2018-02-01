@@ -5,17 +5,18 @@
             <label class="label">Discipline</label>
         </td>
         <td>
-            <select class="select select--width-full" [(ngModel)]="this.talkFilterViewModel.disciplineName" (change)="onSelectDisciplineFilter($event.target.value)">
-                <option *ngFor="let disciplineName of this.talkFilterViewModel.disciplineList" [value]="disciplineName">
-                    {{ disciplineName }}
-                </option>
-            </select>
+            <ng-select [allowClear]="true"
+                       [items]="this.disciplineFilterItems"
+                       (selected)="onSelectDisciplineFilter($event)"
+                       placeholder="No discipline selected">
+            </ng-select>
+
         </td>
         <td>
             <label class="label">Speaker</label>
         </td>
         <td>
-            <input class="input" type="text" [(ngModel)]="this.talkFilterViewModel.speakerName" />
+            <input class="input" type="text" [(ngModel)]="this.selectedTalkFilterViewModel.speakerName" />
         </td>
     </tr>
     <tr>
@@ -23,14 +24,14 @@
             <label class="label">Topic</label>
         </td>
         <td>
-            <input class="input" type="text" [(ngModel)]="this.talkFilterViewModel.topic" />
+            <input class="input" type="text" [(ngModel)]="this.selectedTalkFilterViewModel.topic" />
         </td>
         <td>
 
             <label class="label">Date From</label>
 
         <td>
-            <datetime [(ngModel)]="this.talkFilterViewModel.dateFrom"
+            <datetime [(ngModel)]="this.selectedTalkFilterViewModel.dateFrom"
                       [hasClearButton]="true"
                       [timepicker]="{ showMeridian: false, minuteStep: 1 }"
                       [datepicker]="dateFromSettings"
@@ -45,11 +46,11 @@
 
         </td>
         <td>
-            <select class="select select--width-full" [(ngModel)]="this.talkFilterViewModel.locationName" (change)="onSelectLocationFilter($event.target.value)">
-                <option *ngFor="let locationName of this.talkFilterViewModel.locationList" [value]="locationName">
-                    {{ locationName }}
-                </option>
-            </select>
+            <ng-select [allowClear]="true"
+                       [items]="this.locationFilterItems"
+                       (selected)="onSelectLocationFilter($event)"
+                       placeholder="No location selected">
+            </ng-select>
         </td>
         <td>
 
@@ -57,7 +58,7 @@
 
         </td>
         <td>
-            <datetime [(ngModel)]="this.talkFilterViewModel.dateTo"
+            <datetime [(ngModel)]="this.selectedTalkFilterViewModel.dateTo"
                       [hasClearButton]="true"
                       [timepicker]="{ showMeridian: false, minuteStep: 1 }"
                       [datepicker]="dateToSettings"

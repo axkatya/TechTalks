@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DataAccess.Entities;
+using System.Collections.Generic;
 
 namespace AngularMVCCoreTechTalks.ViewModels
 {
@@ -13,7 +14,7 @@ namespace AngularMVCCoreTechTalks.ViewModels
         /// <value>
         /// The discipline list.
         /// </value>
-        public IList<string> DisciplineList { get; set; }
+        public List<Discipline> DisciplineList { get; set; }
 
         /// <summary>
         /// Gets or sets the location list.

@@ -12,11 +12,6 @@ export class TalkFilterViewModelService {
         this.baseUrl = baseUrl;
     }
 
-    getTalkFilterViewModel() {
-        return this.http.get(this.baseUrl + 'api/Talk/GetFilters')
-            .map((result => result.json() as TalkFilterViewModel));
-    }
-
     getPossibleLists() {
         return this.http.get(this.baseUrl + 'api/Talk/GetPossibleLists')
             .map((result => result.json() as TalkFilterViewModel));

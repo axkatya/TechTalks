@@ -15,7 +15,7 @@ import { UpsertSpeakerComponent } from '../upsertSpeaker/upsert-speaker.componen
 
 export class UpsertTalkComponent {
     private talk: Talk;
-    private disciplineList: string[];
+    private disciplineList: Discipline[];
     private locationList: string[];
     private speakerList: string[];
     private isNewSpeaker: boolean = false;
@@ -70,8 +70,8 @@ export class UpsertTalkComponent {
                 this.disciplineItems = new Array();
                 for (let i = 0; i < this.disciplineList.length; i++) {
                     this.disciplineItems[i] = {
-                        id: this.disciplineList[i],
-                        text: this.disciplineList[i]
+                        id: this.disciplineList[i].disciplineId,
+                        text: this.disciplineList[i].disciplineName
                     };
                 }
 
@@ -117,7 +117,7 @@ export class UpsertTalkComponent {
     }
 
     onSelectLocation(location: any) {
-        this.talk.location = location;
+        this.talk.location = location.text;
     }
 
     onTypedLocation(location: any) {
@@ -126,12 +126,13 @@ export class UpsertTalkComponent {
     }
 
     onSelectDiscipline(discipline: any) {
-        this.talk.disciplineName = discipline;
+        this.talk.disciplineId = discipline.id;
+        this.talk.disciplineName = discipline.text;
     }
 
     onTypedDiscipline(discipline: any) {
         this.talk.disciplineName = discipline;
-        this.selectedDiscipline = [{ id: this.talk.disciplineName, text: this.talk.disciplineName }];
+        this.selectedDiscipline = [{ id: 0, text: this.talk.disciplineName }];
     }
 }
 

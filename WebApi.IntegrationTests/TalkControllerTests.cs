@@ -2,7 +2,6 @@ using AngularMVCCoreTechTalks;
 using AngularMVCCoreTechTalks.Automapper.Profiles;
 using AngularMVCCoreTechTalks.ViewModels;
 using AutoMapper;
-using BusinessLogic.Filters;
 using DataAccess.EF;
 using DataAccess.Entities;
 using Microsoft.AspNetCore.Hosting;
@@ -14,7 +13,6 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,7 +55,7 @@ namespace WebApi.IntegrationTests
         }
 
         [Fact]
-        public async Task GetFilters_WhenRequestFilters_ReturnFilters()
+        public async Task GetPossibleLists_WhenRequestFilters_ReturnFilters()
         {
             // Act
             AutoMapper.Mapper.Reset();
@@ -67,7 +65,7 @@ namespace WebApi.IntegrationTests
                 x.AddProfile<TalkToTalkFilterViewModelProfile>();
             });
 
-            HttpResponseMessage response = await _client.GetAsync("/api/talk/GetFilters");
+            HttpResponseMessage response = await _client.GetAsync("/api/talk/GetPossibleLists");
             TalkFilterViewModel talkFilterViewModel = await response.Content.ReadAsJsonAsync<TalkFilterViewModel>();
 
             // Assert

@@ -22,13 +22,5 @@ namespace DataAccess.Entities
         /// The name of the discipline.
         /// </value>
         public string DisciplineName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the talks.
-        /// </summary>
-        /// <value>
-        /// The talks.
-        /// </value>
-        public ICollection<Talk> Talks { get; set; }
     }
 }

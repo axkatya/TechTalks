@@ -36,15 +36,6 @@
             <label>Discipline</label>
         </td>
         <td>
-            <!--<select [disabled]="this.isNewSpeaker"
-            class="select select--width-full"
-            [(ngModel)]="this.talk.disciplineName"
-            (change)="onSelectDisciplineFilter($event.target.value)">
-                <option *ngFor="let disciplineName of this.disciplineList" value="{{disciplineName}}">
-                    {{disciplineName}}
-                </option>
-    </select>-->
-
             <ng-select [allowClear]="true"
                        [items]="this.disciplineItems"
                        [active]="this.selectedDiscipline"

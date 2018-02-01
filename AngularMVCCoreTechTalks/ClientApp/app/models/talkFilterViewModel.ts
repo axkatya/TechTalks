@@ -1,10 +1,6 @@
-﻿export class TalkFilterViewModel {
-    public disciplineList: string[];
+﻿import { Discipline } from "./discipline";
+
+export class TalkFilterViewModel {
+    public disciplineList: Discipline[];
     public locationList: string[];
-    public speakerName: string;
-    public dateFrom: Date;
-    public dateTo: Date;
-    public disciplineName: string;
-    public location: string;
-    public topic: string;
 }

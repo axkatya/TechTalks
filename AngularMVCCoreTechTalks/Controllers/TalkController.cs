@@ -35,19 +35,6 @@ namespace AngularMVCCoreTechTalks.Controllers
         #region Actions
 
         [HttpGet("[action]")]
-        public TalkFilterViewModel GetFilters()
-        {
-            IList<Talk> talks = _talkService.GetAll().ToList();
-
-            TalkFilterViewModel filterViewModel = Mapper.Map<TalkFilterViewModel>(talks);
-
-            filterViewModel.DisciplineList.Insert(0, string.Empty );
-            filterViewModel.LocationList.Insert(0, string.Empty);
-
-            return filterViewModel;
-        }
-
-        [HttpGet("[action]")]
         public TalkFilterViewModel GetPossibleLists()
         {
             IList<Talk> talks = _talkService.GetAll().ToList();
