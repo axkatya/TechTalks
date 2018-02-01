@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AngularMVCCoreTechTalks\AngularMVCCoreTechTalks.csproj" />
-    <ProjectReference Include="..\IntegrationTestsCore\IntegrationTestsCore.csproj" />
   </ItemGroup>
 
 </Project>

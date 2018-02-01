@@ -66,8 +66,9 @@ namespace AngularMVCCoreTechTalks.Controllers
         }
 
         [HttpPost("[action]")]
-        public IEnumerable<TalkViewModel> GetFilteredTalks([FromBody]TalkFilter talkFilter)
+        public IEnumerable<TalkViewModel> GetFilteredTalks([FromBody]SelectedTalkFilterViewModel selectedTalkFilter)
         {
+            TalkFilter talkFilter = Mapper.Map<TalkFilter>(selectedTalkFilter);
             var talks = _talkService.ExecuteFilters(talkFilter.FilterExpression);
             IEnumerable<TalkViewModel> talksViewModel = Mapper.Map<IEnumerable<TalkViewModel>>(talks);
             return talksViewModel;

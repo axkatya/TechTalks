@@ -2,7 +2,6 @@
 using AutoMapper;
 using DataAccess.EF;
 using DataAccess.Entities;
-using IntegrationTestsCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -18,10 +17,11 @@ using Xunit;
 
 namespace WebApi.IntegrationTests
 {
-    public class DisciplineControllerTests : IntegrationTestHelper, IDisposable
+    public class DisciplineControllerTests : IDisposable
     {
         private readonly TestServer _server;
         private readonly HttpClient _client;
+        private TalksContext _talksContext;
 
         public DisciplineControllerTests()
         {
@@ -35,10 +35,16 @@ namespace WebApi.IntegrationTests
                 .UseContentRoot(setDir)
                 .UseStartup<Startup>();
 
-            CreateTestDatabase();
+            var builder = new DbContextOptionsBuilder<TalksContext>();
+            string testConnectionString =
+            $"Server=(localdb)\\mssqllocaldb;Database=TalksDB_{Guid.NewGuid()};Trusted_Connection=True;MultipleActiveResultSets=true";
+            builder.UseSqlServer(testConnectionString);
+
+            _talksContext = new TalksContext(builder.Options);
+            _talksContext.Database.EnsureCreated();
 
             _webHostBuilder.ConfigureServices(s => s.AddDbContext<TalksContext>(options =>
-    options.UseSqlServer(Constants.TestConnectionString)));
+    options.UseSqlServer(testConnectionString)));
 
             _server = new TestServer(_webHostBuilder);
             _client = _server.CreateClient().AcceptJson();
@@ -64,8 +70,7 @@ namespace WebApi.IntegrationTests
 
         public void Dispose()
         {
-            DetachTestDatabase();
-            DeleteTestDatabase();
+            _talksContext.Database.EnsureDeleted();
         }
     }
 }

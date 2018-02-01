@@ -48,7 +48,7 @@ namespace WebApi.UnitTests.Controllers
 
             Mapper.Initialize(x =>
             {
-                x.AddProfile<TalkFilterViewModelToTalkFilterProfile>();
+                x.AddProfile<SelectedTalkFilterViewModelToTalkFilterProfile>();
                 x.AddProfile<TalkToTalkViewModelProfile>();
             });
 
@@ -68,7 +68,8 @@ namespace WebApi.UnitTests.Controllers
 
             var controller = new TalkController(mockTalkService.Object);
 
-            TalkFilter talkFilterViewModel = new TalkFilter {
+            SelectedTalkFilterViewModel talkFilterViewModel = new SelectedTalkFilterViewModel
+            {
                 DisciplineName = filter.DisciplineName,
                 Location = filter.DisciplineName,
                 SpeakerName = filter.SpeakerName,
