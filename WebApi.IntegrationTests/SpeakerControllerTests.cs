@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -118,6 +119,41 @@ namespace WebApi.IntegrationTests
             // Assert
             Assert.True(actualResponse.IsSuccessStatusCode);
             Assert.NotNull(actualSpeaker);
+        }
+
+        [Fact]
+        public async Task GetSpeakers()
+        {
+            Speaker speaker = new Speaker
+            {
+                FirstName = "IntTest_Jess",
+                LastName = "IntTest_Amanda",
+                Location = "IntTest_Room 45",
+                Department = "IntTest_Java",
+                Position = "IntTest_D2"
+            };
+
+            var stringContent = new StringContent(JsonConvert.SerializeObject(speaker), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _client.PostAsync("api/speaker/CreateSpeaker", stringContent);
+            Speaker createdSpeaker = await response.Content.ReadAsJsonAsync<Speaker>();
+
+            // Act
+            List<Speaker> actualSpeakers = null;
+
+            var task = _client.GetAsync($"api/speaker/GetSpeakers")
+          .ContinueWith((taskwithresponse) =>
+          {
+              response = taskwithresponse.Result;
+              var jsonString = response.Content.ReadAsStringAsync();
+              jsonString.Wait();
+              actualSpeakers = JsonConvert.DeserializeObject<List<Speaker>>(jsonString.Result);
+
+          });
+            task.Wait();
+
+            // Assert
+            Assert.True(response.IsSuccessStatusCode);
+            Assert.NotNull(actualSpeakers);
         }
 
         public void Dispose()

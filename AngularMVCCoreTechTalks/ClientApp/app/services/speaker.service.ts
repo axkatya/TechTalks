@@ -20,7 +20,12 @@ export class SpeakerService {
 
     getSpeakerById(id: number) {
         return this.http.get(this.baseUrl + 'api/Speaker/GetSpeakerById/'+ id)
-            .map((result => result.json() as Speaker));
+            .map(result => result.json() as Speaker);
+    }
+
+    getSpeakers() {
+        return this.http.get(this.baseUrl + 'api/Speaker/GetSpeakers')
+            .map(result => result.json() as Speaker[]);
     }
 
     createSpeaker(speaker: Speaker) {

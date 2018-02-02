@@ -70,8 +70,6 @@ namespace WebApi.IntegrationTests
 
             // Assert
             Assert.True(response.IsSuccessStatusCode);
-            Assert.True(talkFilterViewModel.DisciplineList.Count > 0);
-            Assert.True(talkFilterViewModel.LocationList.Count > 0);
         }
 
         [Fact]

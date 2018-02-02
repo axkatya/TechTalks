@@ -1,0 +1,32 @@
+﻿<div *ngIf="!this.isUpdateSpeaker">
+    <h2 class="h2">Speakers</h2>
+
+    <table>
+        <tr>
+            <td colspan="2">
+                <button (click)="onAddNewSpeaker()">Add New Speaker</button>
+            </td>
+            <td class="td--textalign-right" colspan="2">
+                <label class="label">Rows per page</label>
+
+                <select class="select" [(ngModel)]="this.rowsPerPage" (change)="onSelectRowsPerPage($event.target.value)">
+                    <option *ngFor="let rowsPerPage of this.possibleRowsPerPage" [value]="rowsPerPage">
+                        {{ rowsPerPage }}
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <ng2-smart-table *ngIf="source"
+                                 [settings]="speakersDataSettings"
+                                 [source]="source"
+                                 (custom)="onCustomEditSpeaker($event)">Loading...</ng2-smart-table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div *ngIf="this.isUpdateSpeaker">
+    <upsert-speaker (notify)="onNotifyFromUpsertSpeaker($event)" [updatedSpeaker]="this.speakerForUpdating"></upsert-speaker>
+</div>

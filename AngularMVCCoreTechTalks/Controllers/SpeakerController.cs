@@ -2,6 +2,7 @@
 using DataAccess.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace AngularMVCCoreTechTalks.Controllers
 {
@@ -34,6 +35,12 @@ namespace AngularMVCCoreTechTalks.Controllers
         {
             var speaker = _speakerService.GetById(id);
             return speaker;
+        }
+
+        [HttpGet("[action]")]
+        public IEnumerable<Speaker> GetSpeakers()
+        {
+            return _speakerService.GetAll();
         }
 
         [HttpPost("[action]")]

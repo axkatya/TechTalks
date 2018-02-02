@@ -29,7 +29,7 @@ namespace DataAccess.IntegrationTests
         }
 
         [Fact]
-        public void GetById_WhenOneRecordExists_ShouldReturnOneRecordWithRelatedRows()
+        public void GetById_WhenOneRecordExists_ShouldReturnOneRecord()
         {
             // Arrange
             var discipline = new Discipline { DisciplineName = "IntTest_.NET" };
@@ -60,6 +60,39 @@ namespace DataAccess.IntegrationTests
             //Assert
             Assert.Equal("IntTest_Ivan", actualSpeaker.FirstName);
             Assert.Equal("IntTest_Pupkin", actualSpeaker.LastName);
+        }
+
+        [Fact]
+        public void GetAll_WhenOneRecordExists_ShouldReturnOneRecord()
+        {
+            // Arrange
+            var discipline = new Discipline { DisciplineName = "IntTest_.NET" };
+
+            var speaker = new Speaker
+            {
+                FirstName = "IntTest_Ivan",
+                LastName = "IntTest_Pupkin",
+                Position = "IntTest_SE",
+                Location = "IntTest_Minsk"
+            };
+
+            _talksContext.Talks.Add(new Talk
+            {
+                Location = "IntTest_L3, Room 54",
+                Topic = "IntTest_SignalR",
+                Discipline = discipline,
+                Speaker = speaker
+            });
+
+            var changes = _talksContext.SaveChanges();
+
+            //Act
+            SpeakersRepository speakersRepository = new SpeakersRepository(_talksContext);
+            var actualSpeakers = speakersRepository.GetAll();
+
+            //Assert
+            Assert.NotNull(actualSpeakers);
+            Assert.True(actualSpeakers.Count() > 0);
         }
 
         [Fact]

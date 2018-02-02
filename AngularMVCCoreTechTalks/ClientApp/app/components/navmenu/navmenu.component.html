@@ -13,8 +13,18 @@
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/talk-data']">
+                    <a [routerLink]="['/talks-data']">
                         <span class='glyphicon glyphicon-th-list'></span> Talks
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class='clearfix'></div>
+        <div class='navbar-collapse collapse'>
+            <ul class='nav navbar-nav'>
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/speakers-data']">
+                        <span class='glyphicon glyphicon-th-list'></span> Speakers
                     </a>
                 </li>
             </ul>

@@ -31,15 +31,7 @@ namespace WebApi.UnitTests.Controllers
         public void UpdateSpeakerTest()
         {
             // Arrange
-            Speaker speaker = new Speaker
-            {
-                SpeakerId = 1,
-                FirstName = "test",
-                LastName = "Amanda",
-                Location = "Room 45",
-                Department = "Java",
-                Position = "D2"
-            };
+            Speaker speaker = GetSpeaker();
 
             var mockSpeakerService = new Mock<ISpeakerService>();
 
@@ -58,14 +50,7 @@ namespace WebApi.UnitTests.Controllers
         public void CreateSpeakerTest()
         {
             // Arrange
-            Speaker speaker = new Speaker
-            {
-                FirstName = "test",
-                LastName = "Amanda",
-                Location = "Room 45",
-                Department = "Java",
-                Position = "D2"
-            };
+            Speaker speaker = GetSpeaker();
 
             var mockSpeakerService = new Mock<ISpeakerService>();
 
@@ -78,6 +63,23 @@ namespace WebApi.UnitTests.Controllers
 
             // Assert
             mockSpeakerService.Verify(mock => mock.Create(speaker), Times.Once());
+        }
+
+        [Fact]
+        public void GetSpeakersTest()
+        {
+            // Arrange
+            var mockSpeakerService = new Mock<ISpeakerService>();
+
+            mockSpeakerService.Setup(x => x.GetAll());
+
+            var controller = new SpeakerController(mockSpeakerService.Object);
+
+            // Act
+            controller.GetSpeakers();
+
+            // Assert
+            mockSpeakerService.Verify(mock => mock.GetAll(), Times.Once());
         }
 
         private Speaker GetSpeaker()

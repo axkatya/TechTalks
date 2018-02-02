@@ -11,7 +11,8 @@ import { SelectModule } from 'ng2-select';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
-import { TalkComponent } from './components/talkdata/talkdata.component';
+import { TalksDataComponent } from './components/talksdata/talksdata.component';
+import { SpeakersDataComponent } from './components/speakersdata/speakersdata.component';
 import { SpeakerComponent } from './components/speaker/speaker.component';
 import { UpsertTalkComponent } from './components/upsertTalk/upsert-talk.component';
 import { UpsertSpeakerComponent } from './components/upsertSpeaker/upsert-speaker.component';
@@ -29,7 +30,8 @@ import { DisciplineService } from './services/discipline.service';
         AppComponent,
         NavMenuComponent,
         SpeakerButtonRenderComponent,
-        TalkComponent,
+        TalksDataComponent,
+        SpeakersDataComponent,
         SpeakerComponent,
         UpsertTalkComponent,
         UpsertSpeakerComponent
@@ -40,7 +42,8 @@ import { DisciplineService } from './services/discipline.service';
         FormsModule,
         RouterModule.forRoot([
             { path: '', redirectTo: 'talk-data', pathMatch: 'full' },
-            { path: 'talk-data', component: TalkComponent },
+            { path: 'talks-data', component: TalksDataComponent },
+            { path: 'speakers-data', component: SpeakersDataComponent },
             { path: 'speaker/:id', component: SpeakerComponent },
             { path: 'upsert-talk', component: UpsertTalkComponent },
             { path: 'upsert-talk/:id', component: UpsertTalkComponent },

@@ -15,7 +15,7 @@ namespace WebApi.UnitTests.Controllers
     public class TalkControllerTests
     {
         [Fact]
-        public void GetFilters_WhenTwoRecordsExist_ShouldReturnDistinctValues()
+        public void GetPossibleLists_WhenTwoRecordsExist_ShouldReturnDistinctValues()
         {
             // Arrange
             AutoMapper.Mapper.Reset();
@@ -32,7 +32,7 @@ namespace WebApi.UnitTests.Controllers
             var controller = new TalkController(mockTalkService.Object);
 
             // Act
-            TalkFilterViewModel result = controller.GetFilters();
+            TalkFilterViewModel result = controller.GetPossibleLists();
 
             // Assert
             result.DisciplineList.ToList().Count().CompareTo(2);

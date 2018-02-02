@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
 import { SpeakerButtonRenderComponent } from '../button-render/speaker.button-render.component';
 
 @Component({
-    selector: 'talkdata',
-    templateUrl: './talkdata.component.html',
+    selector: 'talksdata',
+    templateUrl: './talksdata.component.html',
     styleUrls: ['../app/app.component.less']
 })
 
-export class TalkComponent {
+export class TalksDataComponent {
 
     private talkFilterViewModel: TalkFilterViewModel;
     private selectedTalkFilterViewModel: SelectedTalkFilterViewModel;
@@ -89,6 +89,13 @@ export class TalkComponent {
     ) {
         this.possibleRowsPerPage = [20, 50];
         this.rowsPerPage = 20;
+
+        this.selectedTalkFilterViewModel = new SelectedTalkFilterViewModel();
+        this.selectedTalkFilterViewModel.dateFrom = new Date();
+        this.selectedTalkFilterViewModel.disciplineName = '';
+        this.selectedTalkFilterViewModel.location = '';
+        this.selectedTalkFilterViewModel.speakerName = '';
+        this.selectedTalkFilterViewModel.topic = '';
     }
 
     ngOnInit() {
@@ -112,13 +119,6 @@ export class TalkComponent {
                 };
             }
         });
-
-        this.selectedTalkFilterViewModel = new SelectedTalkFilterViewModel();
-        this.selectedTalkFilterViewModel.dateFrom = new Date();
-        this.selectedTalkFilterViewModel.disciplineName = '';
-        this.selectedTalkFilterViewModel.location = '';
-        this.selectedTalkFilterViewModel.speakerName = '';
-        this.selectedTalkFilterViewModel.topic = '';
 
         this.getFilteredTalks(this.selectedTalkFilterViewModel);
     }
@@ -163,11 +163,11 @@ export class TalkComponent {
         this._router.navigate(['/upsert-talk/']);
     }
 
-    onCustom(event: any) {
+    onCustomEditTalk(event: any) {
         this._router.navigate(['/upsert-talk/' + event.data.talkId]);
     }
 
-    deleteRecord(event: any) {
+    onDeleteTalk(event: any) {
         var data: Talk = event.newData as Talk;
 
         this._talkService.deleteTalk(event.data.talkId).subscribe(

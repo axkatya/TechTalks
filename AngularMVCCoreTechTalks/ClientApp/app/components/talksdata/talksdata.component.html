@@ -1,4 +1,4 @@
-<h1 class="h1">Tech Talks</h1>
+<h2 class="h2">Tech Talks</h2>
 <table>
     <tr>
         <td>
@@ -60,7 +60,7 @@
         <td>
             <datetime [(ngModel)]="this.selectedTalkFilterViewModel.dateTo"
                       [hasClearButton]="true"
-                      [timepicker]="{ showMeridian: false, minuteStep: 1 }"
+                      [timepicker]="{ showMeridian: false, minuteStep: 5, showSeconds:false }"
                       [datepicker]="dateToSettings"
                       (ngModelChange)="onDateToSelect($event)"></datetime>
         </td>
@@ -94,8 +94,8 @@
             <ng2-smart-table *ngIf="source"
                              [settings]="talkSettings"
                              [source]="source"
-                             (custom)="onCustom($event)"
-                             (deleteConfirm)="deleteRecord($event)">Loading....</ng2-smart-table>
+                             (custom)="onCustomEditTalk($event)"
+                             (deleteConfirm)="onDeleteTalk($event)">Loading....</ng2-smart-table>
         </td>
     </tr>
 </table>

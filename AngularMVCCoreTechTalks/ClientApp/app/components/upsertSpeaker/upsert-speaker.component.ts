@@ -1,6 +1,7 @@
 ﻿import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Speaker } from '../../models/speaker';
 import { SpeakerService } from '../../services/speaker.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'upsert-speaker',
@@ -14,13 +15,15 @@ export class UpsertSpeakerComponent implements OnInit {
 
     private speaker: Speaker;
 
-    constructor(private _speakerService: SpeakerService) {
+    constructor(private _route: ActivatedRoute, private _speakerService: SpeakerService) {
 
     }
 
     ngOnInit(): void {
         if (this.updatedSpeaker === undefined) {
+
             this.speaker = new Speaker();
+
         }
         else {
             this.speaker = this.updatedSpeaker;

@@ -1,13 +1,13 @@
 ﻿import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TalkComponent } from './talkdata.component';
+import { TalksDataComponent } from './talksdata.component';
 import { TalkFilterViewModelService } from '../../services/talkFilterViewModel.service';
 import { TalkService } from '../../services/talk.service';
 import { Router } from '@angular/router';
 
 describe('TalkComponent', () => {
-    let component: TalkComponent;
-    let fixture: ComponentFixture<TalkComponent>;
+    let component: TalksDataComponent;
+    let fixture: ComponentFixture<TalksDataComponent>;
 
     beforeEach(() => {
 
@@ -20,7 +20,7 @@ describe('TalkComponent', () => {
         };
 
         TestBed.configureTestingModule({
-            declarations: [TalkComponent],
+            declarations: [TalksDataComponent],
             providers: [
                 { provide: TalkService, useValue: talkServiceStub },
                 { provide: TalkFilterViewModelService, useValue: talkFilterViewModelServiceStub }]
@@ -29,7 +29,7 @@ describe('TalkComponent', () => {
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(TalkComponent);
+        fixture = TestBed.createComponent(TalksDataComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
