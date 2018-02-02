@@ -6,4 +6,5 @@
     public position: string;
     public department: string;
     public location: string;
+    public isUpdated: boolean;
 }

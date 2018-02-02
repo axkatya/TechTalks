@@ -1,10 +1,10 @@
-﻿<h2 *ngIf="this.speaker.speakerId > 0; else elseBlock">Update Speaker</h2>
+﻿<h2 class="h2" *ngIf="this.speaker.speakerId > 0; else elseBlock">Update Speaker</h2>
 <ng-template #elseBlock>Create Speaker</ng-template>
 
 <table>
     <tr>
         <td>
-            <label>First Name</label>
+            <label class="label">First Name</label>
         </td>
         <td>
             <input class="input" type="text" [(ngModel)]="this.speaker.firstName" />
@@ -12,7 +12,7 @@
     </tr>
     <tr>
         <td>
-            <label>Last Name</label>
+            <label class="label">Last Name</label>
         </td>
         <td>
             <input class="input" type="text" [(ngModel)]="this.speaker.lastName" />
@@ -20,7 +20,7 @@
     </tr>
     <tr>
         <td>
-            <label>Email</label>
+            <label class="label" >Email</label>
         </td>
         <td>
             <input class="input" type="text" [(ngModel)]="this.speaker.email" />
@@ -28,7 +28,7 @@
     </tr>
     <tr>
         <td>
-            <label>Location</label>
+            <label class="label">Location</label>
         </td>
         <td>
             <input class="input" type="text" [(ngModel)]="this.speaker.location" />
@@ -36,7 +36,7 @@
     </tr>
     <tr>
         <td>
-            <label>Position</label>
+            <label class="label">Position</label>
         </td>
         <td>
             <input class="input" type="text" [(ngModel)]="this.speaker.position" />
@@ -44,7 +44,7 @@
     </tr>
     <tr>
         <td>
-            <label>Department</label>
+            <label class="label">Department</label>
         </td>
         <td>
             <input class="input" type="text" [(ngModel)]="this.speaker.department" />
@@ -52,6 +52,7 @@
     </tr>
     <tr>
         <td colspan="2">
+            <button (click)="onCancel()">Cancel</button>
             <button (click)="onSave()">Save Speaker</button>
         </td>
     </tr>

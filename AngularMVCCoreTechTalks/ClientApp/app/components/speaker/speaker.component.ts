@@ -5,19 +5,21 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'speakerdata',
-    templateUrl: './speaker.component.html'
+    templateUrl: './speaker.component.html',
+    styleUrls: ['../app/app.component.less']
 })
 
 export class SpeakerComponent {
     private baseUrl: string;
     private speaker: Speaker;
+    private speakerForUpdating: Speaker; 
     private isUpdateSpeaker: boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
         private _speakerService: SpeakerService) {
 
-        this.speaker = new Speaker();
+        this.speaker = new Speaker();        
     }
 
     ngOnInit() {
@@ -30,12 +32,15 @@ export class SpeakerComponent {
     }
 
     onUpdateSpeaker() {
+        this.speakerForUpdating = Object.assign({}, this.speaker);        
         this.isUpdateSpeaker = true;
     }
 
     onNotifyFromUpsertSpeaker(speaker: Speaker) {
         this.isUpdateSpeaker = false;
-        this.speaker = speaker;
+        if (speaker.isUpdated) {
+            this.speaker = speaker;
+        }
     }
 }
 

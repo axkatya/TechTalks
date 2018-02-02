@@ -1,6 +1,6 @@
 ﻿<div *ngIf="!this.isUpdateSpeaker">
 
-    <h2>Speaker Info</h2>
+    <h2 class="h2">Speaker Info</h2>
     <table>
 
         <tr>
@@ -62,5 +62,5 @@
 </div>
 
 <div *ngIf="this.isUpdateSpeaker">
-    <upsert-speaker (notify)="onNotifyFromUpsertSpeaker($event)" [updatedSpeaker]="this.speaker"></upsert-speaker>
+    <upsert-speaker (notify)="onNotifyFromUpsertSpeaker($event)" [updatedSpeaker]="this.speakerForUpdating"></upsert-speaker>
 </div>

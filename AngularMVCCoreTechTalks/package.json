@@ -35,7 +35,7 @@
     "event-source-polyfill": "0.0.9",
     "expose-loader": "0.7.3",
     "extract-text-webpack-plugin": "2.1.2",
-    "file-loader": "0.11.2",
+    "file-loader": "^0.11.2",
     "html-loader": "0.4.5",
     "isomorphic-fetch": "2.2.1",
     "jasmine": "^2.9.0",
@@ -48,6 +48,7 @@
     "karma-cli": "1.0.1",
     "karma-jasmine": "1.1.0",
     "karma-webpack": "2.0.3",
+    "less": "^2.7.3",
     "preboot": "4.5.2",
     "raw-loader": "0.5.1",
     "reflect-metadata": "0.1.10",
@@ -63,6 +64,7 @@
   },
   "dependencies": {
     "hummus": "^1.0.83",
+    "less-loader": "^4.0.5",
     "ng2-datetime": "^1.4.0",
     "ng2-select": "^2.0.0",
     "ng2-smart-table": "^1.2.2"

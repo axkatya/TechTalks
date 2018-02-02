@@ -4,7 +4,8 @@ import { SpeakerService } from '../../services/speaker.service';
 
 @Component({
     selector: 'upsert-speaker',
-    templateUrl: './upsert-speaker.component.html'
+    templateUrl: './upsert-speaker.component.html',
+    styleUrls: ['../app/app.component.less']
 })
 
 export class UpsertSpeakerComponent implements OnInit {
@@ -28,7 +29,7 @@ export class UpsertSpeakerComponent implements OnInit {
 
     onSave() {
         var res: any;
-
+        this.speaker.isUpdated = true;
         if (this.speaker.speakerId > 0) {
             this._speakerService.updateSpeaker(this.speaker).subscribe(result => {
                 res = result;
@@ -42,5 +43,10 @@ export class UpsertSpeakerComponent implements OnInit {
                 this.notify.emit(this.speaker);
             });
         }
+    }
+
+    onCancel() {
+        this.speaker.isUpdated = false;
+        this.notify.emit(this.speaker);
     }
 }

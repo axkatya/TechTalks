@@ -10,7 +10,8 @@ import { UpsertSpeakerComponent } from '../upsertSpeaker/upsert-speaker.componen
 
 @Component({
     selector: 'upsert-talk',
-    templateUrl: './upsert-talk.component.html'
+    templateUrl: './upsert-talk.component.html',
+    styleUrls: ['../app/app.component.less']
 })
 
 export class UpsertTalkComponent {
@@ -80,16 +81,20 @@ export class UpsertTalkComponent {
         });
     }
 
+    onCancel() {
+        this._router.navigate(['/talk-data']);
+    }
+
     onSave() {
         var res: any;
         var createdDiscipline: Discipline;
 
-        if (this.disciplineItems.indexOf(this.talk.disciplineName) < 0) {
+        if (!this.checkNestedDisciplineName(this.disciplineList, this.talk.disciplineName)) {
             var discipline: Discipline = { disciplineId: 0, disciplineName: this.talk.disciplineName };
             this._disciplineService.createDiscipline(discipline).subscribe(result => {
                 createdDiscipline = result
                 this.talk.disciplineId = createdDiscipline.disciplineId;
-            });            
+            });
         }
 
         if (this.talk.talkId > 0) {
@@ -108,12 +113,23 @@ export class UpsertTalkComponent {
 
     onNotifyFromUpsertSpeaker(speaker: Speaker) {
         this.isNewSpeaker = false;
-        this.talk.speakerName = speaker.firstName + ' ' + speaker.lastName;
-        this.talk.speakerId = speaker.speakerId;
+
+        if (speaker.isUpdated) {
+            this.talk.speakerName = speaker.firstName + ' ' + speaker.lastName;
+            this.talk.speakerId = speaker.speakerId;
+        }
     }
 
     onTalkDateSelect(date: Date) {
         this.talk.talkDate = date;
+    }
+
+    onAdditionalDetailChange(detail: any) {
+        try {
+            this.talk.additionalDetail = detail.target.value;
+        } catch (e) {
+            console.info('could not set additional details');
+        }
     }
 
     onSelectLocation(location: any) {
@@ -133,6 +149,12 @@ export class UpsertTalkComponent {
     onTypedDiscipline(discipline: any) {
         this.talk.disciplineName = discipline;
         this.selectedDiscipline = [{ id: 0, text: this.talk.disciplineName }];
+    }
+
+    checkNestedDisciplineName(arr: Discipline[], input: string) {
+        return arr.some(function (discipline) {
+            return (discipline.disciplineName.toLowerCase() === input.toLowerCase())
+        });
     }
 }
 

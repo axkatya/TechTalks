@@ -1,0 +1,43 @@
+.font(@fontFamily: Arial, sans-serif; @fontWeight: bold; @fontStyle: normal) {
+    font-family: @fontFamily;
+    font-style: @fontStyle;
+    font-weight: @fontWeight;
+    color: black;
+}
+
+.label {
+    .font;
+    font-size: 15px;
+}
+
+.td--textalign-right {
+    text-align: right;
+}
+
+.input, .textarea {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+.select {
+    width: auto;
+}
+
+.select--width-full {
+    width: 100%;
+}
+
+td {
+    padding: 6px;
+}
+
+.div--border {
+    border: 1px solid #777;
+}
+
+.h1, .h2 {
+    .font;
+    font-size: 30px;
+}
+

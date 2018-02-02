@@ -1,10 +1,10 @@
-﻿<h2 *ngIf="this.talk.talkId > 0; else elseBlock">Update Talk</h2>
+﻿<h2 class="h2" *ngIf="this.talk.talkId > 0; else elseBlock">Update Talk</h2>
 <ng-template #elseBlock>Create Talk</ng-template>
 
 <table>
     <tr>
         <td>
-            <label>Topic</label>
+            <label class="label">Topic</label>
         </td>
         <td>
             <input [disabled]="this.isNewSpeaker" class="input" type="text" [(ngModel)]="this.talk.topic" />
@@ -12,11 +12,10 @@
     </tr>
     <tr>
         <td>
-            <label>Talk Date</label>
+            <label class="label">Talk Date</label>
         </td>
         <td>
-            <datetime 
-                      [(ngModel)]="this.talk.talkDate"
+            <datetime [(ngModel)]="this.talk.talkDate"
                       [hasClearButton]="true"
                       [timepicker]="{ showMeridian: false, minuteStep: 1 }"
                       [datepicker]="dateSettings"
@@ -25,15 +24,17 @@
     </tr>
     <tr>
         <td>
-            <label>Additional Details</label>
+            <label class="label">Additional Details</label>
         </td>
         <td>
-            <input [disabled]="this.isNewSpeaker" class="input" type="text" [(ngModel)]="this.talk.additionalDetail" />
+            <textarea class="textarea" [disabled]="this.isNewSpeaker" (change)="onAdditionalDetailChange($event)">
+{{this.talk.additionalDetail}}
+</textarea>
         </td>
     </tr>
     <tr>
         <td>
-            <label>Discipline</label>
+            <label class="label">Discipline</label>
         </td>
         <td>
             <ng-select [allowClear]="true"
@@ -48,7 +49,7 @@
     </tr>
     <tr>
         <td>
-            <label>Location</label>
+            <label class="label">Location</label>
         </td>
         <td>
 
@@ -64,7 +65,7 @@
     </tr>
     <tr>
         <td>
-            <label>Speaker</label>
+            <label class="label">Speaker</label>
         </td>
         <td>
             <input [disabled]="true" class="input" type="text" [(ngModel)]="this.talk.speakerName" />
@@ -77,15 +78,15 @@
         </td>
     </tr>
     <tr>
-        <td>
-            <div *ngIf="this.isNewSpeaker">
+        <td colspan="2">
+            <div class="div--border" *ngIf="this.isNewSpeaker">
                 <upsert-speaker (notify)="onNotifyFromUpsertSpeaker($event)"></upsert-speaker>
             </div>
         </td>
     </tr>
     <tr>
         <td>
-
+            <button [disabled]="this.isNewSpeaker" (click)="onCancel()">Cancel</button>
             <button [disabled]="this.isNewSpeaker" (click)="onSave()">Save Talk</button>
 
         </td>

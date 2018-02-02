@@ -11,7 +11,7 @@ import { SpeakerButtonRenderComponent } from '../button-render/speaker.button-re
 @Component({
     selector: 'talkdata',
     templateUrl: './talkdata.component.html',
-    styleUrls: ['./talkdata.component.css']
+    styleUrls: ['../app/app.component.less']
 })
 
 export class TalkComponent {
