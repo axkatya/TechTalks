@@ -1,94 +1,135 @@
-﻿<h2 class="h2" *ngIf="this.talk.talkId > 0; else elseBlock">Update Talk</h2>
-<ng-template #elseBlock>Create Talk</ng-template>
+﻿<form #upsertTalkForm="ngForm" (ngSubmit)="onSave()" novalidate>
 
-<table>
-    <tr>
-        <td>
-            <label class="label">Topic</label>
-        </td>
-        <td>
-            <input [disabled]="this.isNewSpeaker" class="input" type="text" [(ngModel)]="this.talk.topic" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label">Talk Date</label>
-        </td>
-        <td>
-            <datetime [(ngModel)]="this.talk.talkDate"
-                      [hasClearButton]="true"
-                      [timepicker]="{ showMeridian: false, minuteStep: 1 }"
-                      [datepicker]="dateSettings"
-                      (ngModelChange)="onTalkDateSelect($event)"></datetime>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label">Additional Details</label>
-        </td>
-        <td>
-            <textarea class="textarea" [disabled]="this.isNewSpeaker" (change)="onAdditionalDetailChange($event)">
-{{this.talk.additionalDetail}}
-</textarea>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label">Discipline</label>
-        </td>
-        <td>
-            <ng-select [allowClear]="true"
-                       [items]="this.disciplineItems"
-                       [active]="this.selectedDiscipline"
-                       [disabled]="this.isNewSpeaker"
-                       (selected)="onSelectDiscipline($event)"
-                       (typed)="onTypedDiscipline($event)"
-                       placeholder="No discipline selected">
-            </ng-select>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label">Location</label>
-        </td>
-        <td>
+    <h2 class="h2" *ngIf="this.talk.talkId > 0; else elseBlock">Update Talk</h2>
+    <ng-template #elseBlock>Create Talk</ng-template>
 
-            <ng-select [allowClear]="true"
-                       [items]="this.locationItems"
-                       [active]="this.selectedLocation"
-                       [disabled]="this.isNewSpeaker"
-                       (selected)="onSelectLocation($event)"
-                       (typed)="onTypedLocation($event)"
-                       placeholder="No location selected">
-            </ng-select>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label">Speaker</label>
-        </td>
-        <td>
-            <input [disabled]="true" class="input" type="text" [(ngModel)]="this.talk.speakerName" />
-
-        </td>
-        <td>
-            <div *ngIf="!this.isNewSpeaker">
-                <a (click)="onCreateNewSpeaker()">Create new speaker</a>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <div class="div--border" *ngIf="this.isNewSpeaker">
-                <upsert-speaker (notify)="onNotifyFromUpsertSpeaker($event)"></upsert-speaker>
-            </div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <button [disabled]="this.isNewSpeaker" (click)="onCancel()">Cancel</button>
-            <button [disabled]="this.isNewSpeaker" (click)="onSave()">Save Talk</button>
-
-        </td>
-    </tr>
-</table>
+    <table>
+        <tr>
+            <td>
+                <label class="label">Topic</label>
+            </td>
+            <td>
+                <input [disabled]="this.isNewSpeaker" class="input" type="text"
+                       name="topic" #topicInput="ngModel"
+                       [(ngModel)]="this.talk.topic" required maxlength="140" />
+            </td>
+            <td>
+                <div [hidden]="topicInput.valid || topicInput.pristine"
+                     class="alert alert-danger">
+                    <div [hidden]="!topicInput.hasError('required')">Topic is required</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Talk Date</label>
+            </td>
+            <td>
+                <datetime [(ngModel)]="this.talk.talkDate"
+                          [hasClearButton]="true"
+                          [timepicker]="{ showMeridian: false, minuteStep: 1 }"
+                          [datepicker]="dateSettings"
+                          (ngModelChange)="onTalkDateSelect($event)"
+                          [ngModelOptions]="{standalone: true}"></datetime>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Additional Details</label>
+            </td>
+            <td>
+                <textarea class="textarea" [disabled]="this.isNewSpeaker"
+                          name="additionalDetail"
+                          (change)="onAdditionalDetailChange($event)" maxlength="280"
+                          [(ngModel)]="this.talk.additionalDetail">
+                    {{this.talk.additionalDetail}}
+                </textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Discipline</label>
+            </td>
+            <td>
+                <ng-select name="selectedDiscipline"
+                           [allowClear]="true"
+                           [items]="this.disciplineItems"
+                           [active]="this.selectedDiscipline"
+                           [disabled]="this.isNewSpeaker"
+                           (selected)="onSelectDiscipline($event)"
+                           (typed)="onTypedDiscipline($event)"
+                           placeholder="No discipline selected"
+                           [(ngModel)]="this.selectedDiscipline"
+                           required
+                           maxlength="50">
+                </ng-select>
+            </td>
+            <!--<td>
+                <div [hidden]="selectedDiscipline.valid || selectedDiscipline.pristine"
+                     class="alert alert-danger">
+                    <div [hidden]="!selectedDiscipline.hasError('required')">Discipline is required</div>
+                </div>
+            </td>-->
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Location</label>
+            </td>
+            <td>
+                <ng-select name="selectedLocation"
+                           [allowClear]="true"
+                           [items]="this.locationItems"
+                           [active]="this.selectedLocation"
+                           [disabled]="this.isNewSpeaker"
+                           (selected)="onSelectLocation($event)"
+                           (typed)="onTypedLocation($event)"
+                           placeholder="No location selected"
+                           [(ngModel)]="this.selectedLocation"
+                           required
+                           maxlength="100">
+                </ng-select>
+            </td>
+            <!--<td>
+                <div [hidden]="selectedLocation.valid || selectedLocation.pristine"
+                     class="alert alert-danger">
+                    <div [hidden]="!selectedLocation.hasError('required')">Location is required</div>
+                </div>
+            </td>-->
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Speaker</label>
+            </td>
+            <td>
+                <input [disabled]="true" name="speakerName" #speakerNameInput="ngModel"
+                       class="input" type="text"
+                       [ngModel]="this.talk.speakerName"
+                       required />
+            </td>
+            <td>
+                <div [hidden]="speakerNameInput.valid || speakerNameInput.pristine"
+                     class="alert alert-danger">
+                    <div [hidden]="!speakerNameInput.hasError('required')">Speaker Name is required</div>
+                </div>
+            </td>
+            <td>
+                <div *ngIf="!this.isNewSpeaker">
+                    <a (click)="onCreateNewSpeaker()">Create new speaker</a>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <div class="div--border" *ngIf="this.isNewSpeaker">
+                    <upsert-speaker (notify)="onNotifyFromUpsertSpeaker($event)"></upsert-speaker>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                <button [disabled]="this.isNewSpeaker" (click)="onCancel()">Cancel</button>
+                <button type="submit" [disabled]="this.isNewSpeaker || upsertTalkForm.invalid">Save Talk</button>
+            </td>
+        </tr>
+    </table>
+</form>

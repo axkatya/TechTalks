@@ -7,10 +7,12 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
         files: [
             '../../wwwroot/dist/vendor.js',
-            './boot-tests.ts'
+            './boot-tests.ts',
+            { pattern: '../**/*.spec.ts', watched: false }
+            
         ],
         preprocessors: {
-            './boot-tests.ts': ['webpack']
+            './boot-tests.ts': ['webpack', 'sourcemap']
         },
         reporters: ['progress'],
         port: 9876,

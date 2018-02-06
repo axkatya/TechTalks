@@ -31,6 +31,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The topic.
         /// </value>
+        [MaxLength(140)]
         public string Topic { get; set; }
 
         /// <summary>
@@ -39,6 +40,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The additional detail.
         /// </value>
+        [MaxLength(280)]
         public string AdditionalDetail { get; set; }
 
         /// <summary>
@@ -73,6 +75,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The location.
         /// </value>
+        [MaxLength(100)]
         public string Location { get; set; }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Entities
 {
@@ -21,6 +21,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The name of the discipline.
         /// </value>
+        [MaxLength(50)]
         public string DisciplineName { get; set; }
     }
 }

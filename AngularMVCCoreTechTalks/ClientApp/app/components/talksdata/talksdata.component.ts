@@ -73,11 +73,11 @@ export class TalksDataComponent {
             add: false,
             edit: false,
             custom: [{
-                name: 'edit',
+                name: 'lnkEditTalk',
                 title: 'Edit'
             }
             ]
-        }       
+        }
     };
 
     public talkFilterViewModelError: Boolean = false;
@@ -152,11 +152,12 @@ export class TalksDataComponent {
     getFilteredTalks(selectedTalkFilterViewModel: SelectedTalkFilterViewModel) {
         this.source = new LocalDataSource();
 
-        this._talkService.getFilteredTalks(selectedTalkFilterViewModel).subscribe(result => {
-            this.source.setPaging(1, this.rowsPerPage, true);
-            this.source.load(result);
-            this.source.refresh();
-        });
+        this._talkService.getFilteredTalks(selectedTalkFilterViewModel).subscribe(
+            result => {
+                this.source.setPaging(1, this.rowsPerPage, true);
+                this.source.load(result);
+                this.source.refresh();
+            });
     }
 
     onAddNewTalk() {

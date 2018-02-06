@@ -41,7 +41,7 @@ import { DisciplineService } from './services/discipline.service';
         HttpModule,
         FormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'talk-data', pathMatch: 'full' },
+            { path: '', redirectTo: 'talks-data', pathMatch: 'full' },
             { path: 'talks-data', component: TalksDataComponent },
             { path: 'speakers-data', component: SpeakersDataComponent },
             { path: 'speaker/:id', component: SpeakerComponent },
@@ -49,7 +49,7 @@ import { DisciplineService } from './services/discipline.service';
             { path: 'upsert-talk/:id', component: UpsertTalkComponent },
             { path: 'upsert-speaker', component: UpsertSpeakerComponent },
             { path: 'upsert-speaker/:id', component: UpsertSpeakerComponent },
-            { path: '**', redirectTo: 'talk-data' }
+            { path: '**', redirectTo: 'talks-data' }
         ]),
         Ng2SmartTableModule,
         NKDatetimeModule,

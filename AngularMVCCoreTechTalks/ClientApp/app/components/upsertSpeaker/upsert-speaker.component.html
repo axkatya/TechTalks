@@ -1,59 +1,106 @@
-﻿<h2 class="h2" *ngIf="this.speaker.speakerId > 0; else elseBlock">Update Speaker</h2>
-<ng-template #elseBlock>Create Speaker</ng-template>
+﻿<form #upsertSpeakerForm="ngForm" (ngSubmit)="onSave()" novalidate>
 
-<table>
-    <tr>
-        <td>
-            <label class="label">First Name</label>
-        </td>
-        <td>
-            <input class="input" type="text" [(ngModel)]="this.speaker.firstName" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label">Last Name</label>
-        </td>
-        <td>
-            <input class="input" type="text" [(ngModel)]="this.speaker.lastName" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label" >Email</label>
-        </td>
-        <td>
-            <input class="input" type="text" [(ngModel)]="this.speaker.email" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label">Location</label>
-        </td>
-        <td>
-            <input class="input" type="text" [(ngModel)]="this.speaker.location" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label">Position</label>
-        </td>
-        <td>
-            <input class="input" type="text" [(ngModel)]="this.speaker.position" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label class="label">Department</label>
-        </td>
-        <td>
-            <input class="input" type="text" [(ngModel)]="this.speaker.department" />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <button (click)="onCancel()">Cancel</button>
-            <button (click)="onSave()">Save Speaker</button>
-        </td>
-    </tr>
-</table>
+    <h2 class="h2" *ngIf="this.speaker.speakerId > 0; else elseBlock">Update Speaker</h2>
+    <ng-template #elseBlock>Create Speaker</ng-template>
+    <table>
+        <tr>
+            <td>
+                <label class="label">First Name</label>
+            </td>
+            <td>
+                <input id="firstNameInput" class="input" type="text"
+                       name="firstName"
+                       [(ngModel)]="this.speaker.firstName"
+                       required maxlength="20"
+                       #firstNameInput="ngModel" />
+            </td>
+            <td>
+                <div [hidden]="firstNameInput.valid || firstNameInput.pristine"
+                     class="alert alert-danger">
+                    <div [hidden]="!firstNameInput.hasError('required')">First Name is required</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Last Name</label>
+            </td>
+            <td>
+                <input id="lastNameInput" class="input" type="text"
+                       name="lastName"
+                       [(ngModel)]="this.speaker.lastName"
+                       required maxlength="20"
+                       #lastNameInput="ngModel" />
+            </td>
+            <td>
+                <div [hidden]="lastNameInput.valid || lastNameInput.pristine"
+                     class="alert alert-danger">
+                    <div [hidden]="!lastNameInput.hasError('required')">Last Name is required</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Email</label>
+            </td>
+            <td>
+                <input class="input" type="email" name="email" [(ngModel)]="this.speaker.email" maxlength="50" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Location</label>
+            </td>
+            <td>
+                <input id="locationInput" class="input" type="text"
+                       name="location" [(ngModel)]="this.speaker.location"
+                       required maxlength="100" #locationInput="ngModel" />
+            </td>
+            <td>
+                <div [hidden]="locationInput.valid || locationInput.pristine"
+                     class="alert alert-danger">
+                    <div [hidden]="!locationInput.hasError('required')">Location is required</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Position</label>
+            </td>
+            <td>
+                <input id="positionInput" class="input" type="text"
+                       name="position"
+                       [(ngModel)]="this.speaker.position"
+                       required maxlength="50" #positionInput="ngModel" />
+            </td>
+            <td>
+                <div [hidden]="positionInput.valid || positionInput.pristine"
+                     class="alert alert-danger">
+                    <div [hidden]="!positionInput.hasError('required')">Position is required</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label class="label">Department</label>
+            </td>
+            <td>
+                <input id="departmentInput" class="input" type="text"
+                       name="department" [(ngModel)]="this.speaker.department"
+                       required maxlength="50" #departmentInput="ngModel" />
+            </td>
+            <td>
+                <div [hidden]="departmentInput.valid || departmentInput.pristine"
+                     class="alert alert-danger">
+                    <div [hidden]="!departmentInput.hasError('required')">Department is required</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button (click)="onCancel()">Cancel</button>
+                <button type="submit" [disabled]="upsertSpeakerForm.invalid">Save Speaker</button>
+            </td>
+        </tr>
+    </table>
+</form>

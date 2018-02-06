@@ -6,7 +6,7 @@ USE TalksDB
 GO
 CREATE TABLE [Talks] (
 	TalkId int NOT NULL IDENTITY(1,1),
-	TalkDate date NOT NULL,
+	TalkDate datetime,
 	Topic nvarchar(140) NOT NULL,
 	AdditionalDetail nvarchar(280),
 	Speaker int,

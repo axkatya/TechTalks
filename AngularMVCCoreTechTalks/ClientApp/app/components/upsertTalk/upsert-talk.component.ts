@@ -7,6 +7,7 @@ import { TalkFilterViewModelService } from '../../services/talkFilterViewModel.s
 import { DisciplineService } from '../../services/discipline.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpsertSpeakerComponent } from '../upsertSpeaker/upsert-speaker.component';
+import { NG_VALIDATORS, Validator, ValidationErrors } from '@angular/forms';
 
 @Component({
     selector: 'upsert-talk',
@@ -20,6 +21,13 @@ export class UpsertTalkComponent {
     private locationList: string[];
     private speakerList: string[];
     private isNewSpeaker: boolean = false;
+
+    private locationItems: Array<any>;
+    private selectedLocation: any;
+
+    private disciplineItems: Array<any>;
+    private selectedDiscipline: any;
+    private errors: string[];
 
     private dateSettings = {
         autoclose: true,
@@ -36,13 +44,8 @@ export class UpsertTalkComponent {
         private _disciplineService: DisciplineService
     ) {
         this.talk = new Talk();
+        this.errors = [];
     }
-
-    private locationItems: Array<any>;
-    private selectedLocation: any;
-
-    private disciplineItems: Array<any>;
-    private selectedDiscipline: any;
 
     ngOnInit() {
         this._route.params.subscribe(params => {
@@ -98,10 +101,20 @@ export class UpsertTalkComponent {
         }
 
         if (this.talk.talkId > 0) {
-            this._talkService.updateTalk(this.talk).subscribe(result => { res = result; });
+            this._talkService.updateTalk(this.talk).subscribe(
+                (result) => {
+                    res = result;
+                },
+                (err) => {
+                    this.processErrors(err);
+                });
         }
         else {
-            this._talkService.createTalk(this.talk).subscribe(result => { res = result; });
+            this._talkService.createTalk(this.talk).subscribe(
+                (result) => { res = result; },
+                (err) => {
+                    this.processErrors(err);
+                });
         }
 
         this._router.navigate(['/talk-data']);
@@ -155,6 +168,20 @@ export class UpsertTalkComponent {
         return arr.some(function (discipline) {
             return (discipline.disciplineName.toLowerCase() === input.toLowerCase())
         });
+    }
+
+    processErrors(err: any) {
+        if (err.status === 400) {
+            // handle validation error
+            let validationErrorDictionary = JSON.parse(err.text());
+            for (var fieldName in validationErrorDictionary) {
+                if (validationErrorDictionary.hasOwnProperty(fieldName)) {
+                    this.errors.push(validationErrorDictionary[fieldName]);
+                }
+            }
+        } else {
+            this.errors.push("something went wrong!");
+        }
     }
 }
 

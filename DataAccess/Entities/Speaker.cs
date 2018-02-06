@@ -30,6 +30,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The first name.
         /// </value>
+        [MaxLength(20)]
         public string FirstName { get; set; }
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The last name.
         /// </value>
+        [MaxLength(20)]
         public string LastName { get; set; }
 
         /// <summary>
@@ -46,6 +48,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The email.
         /// </value>
+        [MaxLength(50)]
         public string Email { get; set; }
 
         /// <summary>
@@ -54,6 +57,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The position.
         /// </value>
+        [MaxLength(50)]
         public string Position { get; set; }
 
         /// <summary>
@@ -62,6 +66,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The department.
         /// </value>
+        [MaxLength(50)]
         public string Department { get; set; }
 
         /// <summary>
@@ -70,6 +75,7 @@ namespace DataAccess.Entities
         /// <value>
         /// The location.
         /// </value>
+        [MaxLength(100)]
         public string Location { get; set; }
 
         /// <summary>
